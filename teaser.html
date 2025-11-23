@@ -31,20 +31,21 @@
             z-index: 0;
         }
 
-        /* コーナーリボン */
+        /* コーナーリボン（左上に変更してボタンとの重なりを回避） */
         .ribbon-box {
             position: absolute;
             top: 0;
-            right: 0;
+            left: 0;
             width: 150px;
             height: 150px;
             overflow: hidden;
-            z-index: 50;
+            z-index: 60; /* ヘッダーより上に */
+            pointer-events: none; /* クリックの邪魔をしない */
         }
         .ribbon {
             position: absolute;
             top: 30px;
-            right: -40px;
+            left: -40px;
             width: 200px;
             background: #ef4444; /* Red */
             color: #fff;
@@ -52,7 +53,7 @@
             font-weight: bold;
             font-size: 14px;
             padding: 10px 0;
-            transform: rotate(45deg);
+            transform: rotate(-45deg); /* 左上用に角度変更 */
             box-shadow: 0 5px 10px rgba(0,0,0,0.2);
             border: 2px dashed #fff;
         }
@@ -65,9 +66,17 @@
             box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
         }
 
-        /* チャットUI */
-        .chat-bubble-left { background-color: #ffffff; border-radius: 18px 18px 18px 0; }
-        .chat-bubble-right { background-color: #dcf8c6; border-radius: 18px 18px 0 18px; }
+        /* チャットUI風スタイル */
+        .chat-bubble-left {
+            background-color: #ffffff;
+            border-radius: 18px 18px 18px 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .chat-bubble-right {
+            background-color: #dcf8c6; /* LINE風グリーン */
+            border-radius: 18px 18px 0 18px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -76,16 +85,18 @@
         <div class="ribbon">事前登録 受付中</div>
     </div>
 
-    <header class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-40">
+    <header class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
         <div class="container mx-auto px-5 md:px-6 py-3 md:py-4 flex justify-between items-center">
-            <div class="text-xl md:text-2xl font-bold text-slate-800">Service Logo <span class="text-xs text-red-500 border border-red-500 px-1 rounded ml-2">Beta</span></div>
-            <a href="#campaign-form" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 md:px-5 md:py-2 rounded-full font-bold text-xs md:text-sm transition animate-pulse">
+            <div class="text-xl md:text-2xl font-bold text-slate-800 pl-12 md:pl-0">
+                Service Logo <span class="hidden md:inline text-xs text-red-500 border border-red-500 px-1 rounded ml-2">Beta</span>
+            </div>
+            <a href="#campaign-form" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 md:px-5 md:py-2 rounded-full font-bold text-xs md:text-sm transition animate-pulse shadow-md">
                 <i class="fas fa-gift mr-1"></i> 特典を受け取る
             </a>
         </div>
     </header>
 
-    <section class="relative min-h-[100svh] flex items-center justify-center overflow-hidden text-white py-20 md:py-0">
+    <section class="relative min-h-[100svh] flex items-center justify-center overflow-hidden text-white py-24 md:py-0">
         <video class="video-background" autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop">
             <source src="Doctor_Takes_Macro_Skin_Photo.mp4" type="video/mp4">
         </video>
@@ -137,33 +148,113 @@
         </div>
     </section>
 
-    <section class="py-16 bg-white">
+    <section class="py-12 md:py-20 bg-slate-100 relative">
         <div class="container mx-auto px-5 md:px-6">
-            <div class="text-center mb-12">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">
-                    もう、現場で一人で迷わない。
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 md:mb-16 text-slate-800 leading-snug">
+                現場で、こんな皮膚トラブルの<br class="md:hidden">判断に迷ったことはありませんか？
+            </h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <div class="bg-white p-6 rounded-2xl shadow-sm md:col-span-2 lg:col-span-1 flex flex-col border-l-4 border-red-500">
+                    <div class="flex-1">
+                        <h3 class="font-bold text-lg text-slate-800 mb-2">「ステロイド、種類が多すぎて何を処方したら良いの？」</h3>
+                        <p class="text-sm text-slate-500 mb-4">強さのランク、基剤の選び方...添付文書を見ても迷ってしまう。</p>
+                    </div>
+                    <div class="bg-slate-200 h-48 rounded-xl overflow-hidden relative group">
+                         <img src="steroids.png" alt="ステロイドの強さ一覧表" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition duration-500">
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <div class="text-red-500 text-3xl mb-3"><i class="fas fa-crutch"></i></div>
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">「この褥瘡、自分で診れる範囲の重症度？」</h3>
+                    <p class="text-sm text-slate-600">デブリは必要？ゲーベンでいい？処置の方針に自信が持てない。</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <div class="text-slate-700 text-3xl mb-3"><i class="fas fa-exclamation-triangle"></i></div>
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">「この皮膚所見、まさか皮膚癌…！？」</h3>
+                    <p class="text-sm text-slate-600">見逃してはいけないサインなのか、老人性イボなのか、判断がつかない。</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                    <div class="text-blue-500 text-3xl mb-3"><i class="fas fa-hospital-user"></i></div>
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">「待てる状態？すぐ病院に診察を依頼すべき？」</h3>
+                    <p class="text-sm text-slate-600">「この程度で紹介したら怒られる？」と遠慮してしまい、タイミングを逃しそうになる。</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm md:col-span-2 lg:col-span-1">
+                    <div class="text-indigo-500 text-3xl mb-3"><i class="fas fa-question-circle"></i></div>
+                    <h3 class="font-bold text-lg text-slate-800 mb-2">「皮膚疾患ってどこから手をつけていいか分からない…」</h3>
+                    <p class="text-sm text-slate-600">専門外だからこそ感じる、診断への漠然とした不安と孤独感。</p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 md:py-20 bg-blue-50">
+        <div class="container mx-auto px-5 md:px-6">
+            <div class="text-center mb-10 md:mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4 leading-snug">
+                    その悩み、チャットで解決。<br>
+                    まるで「隣に専門医がいる」感覚。
                 </h2>
-                <p class="text-slate-600">皮膚トラブルの判断、処方、紹介のタイミング...<br>その悩み、専門医チームがチャットで即座に解決します。</p>
+                <p class="text-sm md:text-base text-slate-600">使い慣れたチャットツール（LINE WORKS等）で、<br class="md:hidden">24時間いつでも相談を送れます。</p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-slate-50 border border-slate-200 p-6 rounded-xl text-center relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 bg-blue-100 w-20 h-20 rounded-full opacity-50"></div>
-                    <i class="fas fa-user-md text-4xl text-blue-600 mb-4"></i>
-                    <h3 class="font-bold text-lg mb-2">皮膚科専門医が回答</h3>
-                    <p class="text-sm text-slate-600">大学病院等の第一線で活躍する専門医のみが対応。</p>
+            <div class="max-w-md mx-auto bg-white border border-slate-200 rounded-3xl shadow-2xl overflow-hidden ring-4 ring-blue-100">
+                <div class="bg-slate-800 text-white p-4 flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center font-bold">医</div>
+                    <div>
+                        <div class="font-bold text-sm">皮膚科専門医チーム</div>
+                        <div class="text-xs text-green-400">● Online</div>
+                    </div>
                 </div>
-                <div class="bg-slate-50 border border-slate-200 p-6 rounded-xl text-center relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 bg-green-100 w-20 h-20 rounded-full opacity-50"></div>
-                    <i class="fas fa-clock text-4xl text-green-600 mb-4"></i>
-                    <h3 class="font-bold text-lg mb-2">24時間以内に返信</h3>
-                    <p class="text-sm text-slate-600">翌日の処置に間に合うスピード感でサポート。</p>
+                <div class="bg-slate-100 p-4 h-96 overflow-y-auto flex flex-col gap-4">
+                    
+                    <div class="flex flex-col items-end">
+                        <div class="chat-bubble-right p-3 text-sm max-w-[85%] text-slate-800">
+                            85歳女性、寝たきりです。仙骨部の発赤が悪化してきました。<br>
+                            写真を送りますが、現在はアズノール軟膏を使用中です。<br>
+                            このまま経過観察でよいでしょうか？
+                        </div>
+                        <div class="mt-1 mr-1">
+                            <span class="bg-gray-300 text-xs text-gray-600 px-2 py-1 rounded">画像添付: image.jpg</span>
+                        </div>
+                        <span class="text-xs text-slate-400 mt-1">14:05 既読</span>
+                    </div>
+
+                    <div class="flex flex-col items-start">
+                        <div class="flex items-end gap-2">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center text-xs text-blue-600 font-bold mb-1">専</div>
+                            <div class="chat-bubble-left p-3 text-sm max-w-[85%] text-slate-800">
+                                ご相談ありがとうございます。<br>
+                                写真拝見しました。黒色壊死組織が見られますので、アズノールでは浸軟が進む可能性があります。<br>
+                                <br>
+                                まずは感染兆候がないか確認し、壊死組織の融解を目的に<strong>「ゲーベンクリーム」</strong>への変更を推奨します。
+                            </div>
+                        </div>
+                        <span class="text-xs text-slate-400 mt-1 ml-10">14:20</span>
+                    </div>
+
+                     <div class="flex flex-col items-start">
+                        <div class="flex items-end gap-2">
+                            <div class="w-8 h-8 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center text-xs text-blue-600 font-bold mb-1">専</div>
+                            <div class="chat-bubble-left p-3 text-sm max-w-[85%] text-slate-800">
+                                また、周囲の発赤が拡大するようであれば、蜂窩織炎の合併を疑い抗生剤の投与も検討してください。<br>
+                                3日後にまた経過の写真を送っていただけますか？
+                            </div>
+                        </div>
+                        <span class="text-xs text-slate-400 mt-1 ml-10">14:21</span>
+                    </div>
+                    
                 </div>
-                <div class="bg-slate-50 border border-slate-200 p-6 rounded-xl text-center relative overflow-hidden">
-                    <div class="absolute -right-4 -top-4 bg-orange-100 w-20 h-20 rounded-full opacity-50"></div>
-                    <i class="fas fa-comments text-4xl text-orange-600 mb-4"></i>
-                    <h3 class="font-bold text-lg mb-2">LINEで完結</h3>
-                    <p class="text-sm text-slate-600">専用アプリ不要。いつものチャットツールで相談可能。</p>
+                <div class="p-3 bg-white border-t border-slate-200 flex gap-2">
+                    <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500"><i class="fas fa-camera"></i></div>
+                    <div class="flex-1 bg-slate-100 rounded-full h-8"></div>
+                    <div class="w-8 h-8 text-blue-500 flex items-center justify-center"><i class="fas fa-paper-plane"></i></div>
                 </div>
             </div>
         </div>
@@ -188,7 +279,7 @@
         </div>
 
         <div class="container mx-auto px-5 md:px-6 relative z-10">
-            <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
+            <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-yellow-400">
                 <div class="bg-gradient-to-r from-red-600 to-red-700 p-8 text-center text-white">
                     <div class="inline-block bg-yellow-400 text-red-800 text-xs font-black px-2 py-1 rounded mb-2">LIMITED OFFER</div>
                     <h2 class="text-2xl md:text-3xl font-bold mb-2">事前登録で特典をGET</h2>
@@ -240,7 +331,7 @@
     </footer>
 
     <script>
-        // リリース予定日を設定 (例: 2024年12月1日)
+        // リリース予定日を設定 (例: 2025年12月20日)
         // ※ここを任意の日付に変更してください
         const releaseDate = new Date("December 20, 2025 00:00:00").getTime();
 
