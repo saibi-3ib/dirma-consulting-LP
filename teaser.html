@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>【事前登録受付中】皮膚科コンサルトサービス - Coming Soon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
+        body { font-family: 'Noto Sans JP', sans-serif; }
+        
+        /* 動画背景 */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: -1;
+        }
+        /* キャンペーン用の少し派手なオーバーレイ */
+        .overlay-campaign {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom right, rgba(15, 23, 42, 0.9), rgba(185, 28, 28, 0.4));
+            z-index: 0;
+        }
+
+        /* コーナーリボン */
+        .ribbon-box {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 150px;
+            height: 150px;
+            overflow: hidden;
+            z-index: 50;
+        }
+        .ribbon {
+            position: absolute;
+            top: 30px;
+            right: -40px;
+            width: 200px;
+            background: #ef4444; /* Red */
+            color: #fff;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            padding: 10px 0;
+            transform: rotate(45deg);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            border: 2px dashed #fff;
+        }
+
+        /* カウントダウン数字のスタイル */
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* チャットUI */
+        .chat-bubble-left { background-color: #ffffff; border-radius: 18px 18px 18px 0; }
+        .chat-bubble-right { background-color: #dcf8c6; border-radius: 18px 18px 0 18px; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800">
+
+    <div class="ribbon-box">
+        <div class="ribbon">事前登録 受付中</div>
+    </div>
+
+    <header class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-40">
+        <div class="container mx-auto px-5 md:px-6 py-3 md:py-4 flex justify-between items-center">
+            <div class="text-xl md:text-2xl font-bold text-slate-800">Service Logo <span class="text-xs text-red-500 border border-red-500 px-1 rounded ml-2">Beta</span></div>
+            <a href="#campaign-form" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 md:px-5 md:py-2 rounded-full font-bold text-xs md:text-sm transition animate-pulse">
+                <i class="fas fa-gift mr-1"></i> 特典を受け取る
+            </a>
+        </div>
+    </header>
+
+    <section class="relative min-h-[100svh] flex items-center justify-center overflow-hidden text-white py-20 md:py-0">
+        <video class="video-background" autoplay loop muted playsinline poster="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?q=80&w=2070&auto=format&fit=crop">
+            <source src="Doctor_Takes_Macro_Skin_Photo.mp4" type="video/mp4">
+        </video>
+        <div class="overlay-campaign"></div>
+
+        <div class="container mx-auto px-5 md:px-6 relative z-10 text-center">
+            
+            <div class="inline-flex items-center gap-2 bg-yellow-400 text-yellow-900 px-6 py-2 rounded-full text-sm md:text-base font-bold mb-8 shadow-lg transform -rotate-1">
+                <i class="fas fa-star"></i> 2024.12 GRAND OPENING
+            </div>
+
+            <h1 class="text-3xl md:text-6xl font-black leading-tight mb-6 drop-shadow-2xl">
+                訪問診療医を孤立させない。<br>
+                <span class="text-transparent bg-clip-text bg-gradient-to-r from-yellow-200 to-yellow-500">最強の皮膚科チーム</span>が<br>
+                あなたのポケットにやってくる。
+            </h1>
+
+            <div class="mb-10">
+                <p class="text-sm md:text-lg mb-4 font-bold text-red-200 tracking-widest">リリースまで残り</p>
+                <div class="flex justify-center gap-3 md:gap-6 text-center" id="countdown">
+                    <div class="countdown-item p-3 md:p-4 rounded-lg w-20 md:w-28">
+                        <div class="text-3xl md:text-5xl font-black text-white" id="days">00</div>
+                        <div class="text-xs md:text-sm text-gray-300 font-bold">DAYS</div>
+                    </div>
+                    <div class="countdown-item p-3 md:p-4 rounded-lg w-20 md:w-28">
+                        <div class="text-3xl md:text-5xl font-black text-white" id="hours">00</div>
+                        <div class="text-xs md:text-sm text-gray-300 font-bold">HOURS</div>
+                    </div>
+                    <div class="countdown-item p-3 md:p-4 rounded-lg w-20 md:w-28">
+                        <div class="text-3xl md:text-5xl font-black text-white" id="minutes">00</div>
+                        <div class="text-xs md:text-sm text-gray-300 font-bold">MINUTES</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="max-w-2xl mx-auto bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
+                <p class="text-lg font-bold mb-4">事前登録で <span class="text-yellow-400 text-2xl">初月無料</span> キャンペーン実施中</p>
+                <a href="#campaign-form" class="block w-full bg-gradient-to-r from-red-500 to-red-700 hover:from-red-600 hover:to-red-800 text-white text-center px-8 py-4 rounded-xl font-bold text-xl shadow-xl transition transform hover:scale-105 border-b-4 border-red-900">
+                    今すぐ事前登録する（30秒）
+                </a>
+                <p class="mt-3 text-xs text-gray-300">※リリース通知と限定クーポンをお送りします。料金は発生しません。</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="bg-yellow-400 py-4 overflow-hidden">
+        <div class="container mx-auto px-6 flex items-center justify-center gap-4 text-yellow-900 font-bold text-sm md:text-lg whitespace-nowrap">
+            <i class="fas fa-bullhorn animate-bounce"></i> 12月中のリリースに向けて、先行登録ユーザーを限定募集中！定員に達し次第終了します。
+        </div>
+    </section>
+
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-5 md:px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4">
+                    もう、現場で一人で迷わない。
+                </h2>
+                <p class="text-slate-600">皮膚トラブルの判断、処方、紹介のタイミング...<br>その悩み、専門医チームがチャットで即座に解決します。</p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="bg-slate-50 border border-slate-200 p-6 rounded-xl text-center relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 bg-blue-100 w-20 h-20 rounded-full opacity-50"></div>
+                    <i class="fas fa-user-md text-4xl text-blue-600 mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2">皮膚科専門医が回答</h3>
+                    <p class="text-sm text-slate-600">大学病院等の第一線で活躍する専門医のみが対応。</p>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 p-6 rounded-xl text-center relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 bg-green-100 w-20 h-20 rounded-full opacity-50"></div>
+                    <i class="fas fa-clock text-4xl text-green-600 mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2">24時間以内に返信</h3>
+                    <p class="text-sm text-slate-600">翌日の処置に間に合うスピード感でサポート。</p>
+                </div>
+                <div class="bg-slate-50 border border-slate-200 p-6 rounded-xl text-center relative overflow-hidden">
+                    <div class="absolute -right-4 -top-4 bg-orange-100 w-20 h-20 rounded-full opacity-50"></div>
+                    <i class="fas fa-comments text-4xl text-orange-600 mb-4"></i>
+                    <h3 class="font-bold text-lg mb-2">LINEで完結</h3>
+                    <p class="text-sm text-slate-600">専用アプリ不要。いつものチャットツールで相談可能。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-12 bg-slate-100 border-y border-slate-200">
+        <div class="container mx-auto px-6 text-center">
+            <p class="font-bold text-slate-500 mb-6 text-sm">このような先生方に事前登録いただいています</p>
+            <div class="flex flex-wrap justify-center gap-3">
+                <span class="bg-white border border-slate-300 px-4 py-2 rounded-full text-sm font-bold text-slate-700">訪問診療医</span>
+                <span class="bg-white border border-slate-300 px-4 py-2 rounded-full text-sm font-bold text-slate-700">療養型病院勤務医</span>
+                <span class="bg-white border border-slate-300 px-4 py-2 rounded-full text-sm font-bold text-slate-700">整形外科医</span>
+                <span class="bg-white border border-slate-300 px-4 py-2 rounded-full text-sm font-bold text-slate-700">施設長・管理者</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="campaign-form" class="py-20 bg-slate-800 relative overflow-hidden">
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0 opacity-10">
+            <i class="fas fa-user-md absolute top-10 left-10 text-9xl text-white"></i>
+            <i class="fas fa-stethoscope absolute bottom-10 right-10 text-9xl text-white"></i>
+        </div>
+
+        <div class="container mx-auto px-5 md:px-6 relative z-10">
+            <div class="max-w-3xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden">
+                <div class="bg-gradient-to-r from-red-600 to-red-700 p-8 text-center text-white">
+                    <div class="inline-block bg-yellow-400 text-red-800 text-xs font-black px-2 py-1 rounded mb-2">LIMITED OFFER</div>
+                    <h2 class="text-2xl md:text-3xl font-bold mb-2">事前登録で特典をGET</h2>
+                    <p class="text-red-100">リリース時に「初月無料クーポン」をメールでお届けします。</p>
+                </div>
+
+                <div class="p-8 md:p-12">
+                    <form action="#" class="space-y-6">
+                        <div>
+                            <label class="block text-slate-700 font-bold mb-2" for="email">メールアドレス</label>
+                            <input type="email" id="email" placeholder="doctor@example.com" class="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-red-500 focus:outline-none transition">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-slate-700 font-bold mb-2">ご職業・属性</label>
+                            <select class="w-full px-4 py-3 rounded-lg border-2 border-slate-200 focus:border-red-500 focus:outline-none bg-white">
+                                <option>訪問診療医</option>
+                                <option>病院勤務医</option>
+                                <option>クリニック管理者</option>
+                                <option>その他</option>
+                            </select>
+                        </div>
+
+                        <div class="bg-yellow-50 border border-yellow-200 p-4 rounded-lg text-sm text-yellow-800 flex items-start gap-3">
+                            <i class="fas fa-info-circle mt-1 text-yellow-600"></i>
+                            <div>
+                                <strong>費用は一切かかりません</strong><br>
+                                登録完了後、サービス開始のお知らせとクーポンコードをお送りします。
+                            </div>
+                        </div>
+
+                        <button type="button" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-bold py-4 rounded-xl shadow-lg transition transform active:scale-95 text-lg">
+                            事前登録を完了する
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <div class="text-center mt-8 text-slate-400 text-sm">
+                <p>※ご入力いただいた情報は、本サービスの案内のみに使用します。</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="bg-slate-900 text-slate-500 py-8 text-center text-xs">
+        <div class="container mx-auto px-6">
+            <p>&copy; 2025 Medical Consult Service. All Rights Reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // リリース予定日を設定 (例: 2024年12月1日)
+        // ※ここを任意の日付に変更してください
+        const releaseDate = new Date("December 20, 2025 00:00:00").getTime();
+
+        const countdownFunction = setInterval(function() {
+            const now = new Date().getTime();
+            const distance = releaseDate - now;
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+            document.getElementById("days").innerHTML = days < 10 ? "0" + days : days;
+            document.getElementById("hours").innerHTML = hours < 10 ? "0" + hours : hours;
+            document.getElementById("minutes").innerHTML = minutes < 10 ? "0" + minutes : minutes;
+
+            if (distance < 0) {
+                clearInterval(countdownFunction);
+                document.getElementById("countdown").innerHTML = "<div class='text-2xl font-bold text-white'>RELEASED!</div>";
+            }
+        }, 1000);
+    </script>
+
+</body>
+</html>
