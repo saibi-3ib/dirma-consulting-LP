@@ -38,7 +38,7 @@ $contactEmail = htmlspecialchars($input['contactEmail']);
 $facilityUrl = isset($input['facilityUrl']) ? htmlspecialchars($input['facilityUrl']) : 'なし';
 
 // メール送信設定
-$to = 'example@example.com'; // ★ここに受信したいメールアドレスを設定
+$to = 'satmedryo@gmail.com'; // ★ここに受信したいメールアドレスを設定
 $subject = "【利用登録申込】" . $facilityName . "様";
 
 $message = "以下の内容で利用登録の申し込みがありました。\n\n";
