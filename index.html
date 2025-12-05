@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>皮膚科コンサルトサービス - LP Draft v2 (Members Added)</title>
+    <title>皮膚科コンサルトサービス - LP Draft v3</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
@@ -41,6 +41,19 @@
             border-radius: 18px 18px 0 18px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
+
+        /* フォーム表示アニメーション */
+        #registration-form-container {
+            transition: all 0.5s ease-in-out;
+            max-height: 0;
+            opacity: 0;
+            overflow: hidden;
+        }
+        #registration-form-container.open {
+            max-height: 2000px; /* 十分な高さを確保 */
+            opacity: 1;
+            margin-top: 2rem;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
@@ -77,7 +90,7 @@
                     あなたの診療方針をバックアップします。
                 </p>
                 <div class="flex flex-col md:flex-row gap-4">
-                    <a href="#cta-a" class="bg-green-500 hover:bg-green-600 text-white text-center px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition transform hover:-translate-y-1 w-full md:w-auto">
+                    <a href="#cta-a" onclick="openForm()" class="bg-green-500 hover:bg-green-600 text-white text-center px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition transform hover:-translate-y-1 w-full md:w-auto cursor-pointer">
                         今すぐサポートを開始する
                     </a>
                 </div>
@@ -193,7 +206,6 @@
                     </div>
                 </div>
                 <div class="bg-slate-100 p-4 h-96 overflow-y-auto flex flex-col gap-4">
-                    
                     <div class="flex flex-col items-end">
                         <div class="chat-bubble-right p-3 text-sm max-w-[85%] text-slate-800">
                             85歳女性、寝たきりです。仙骨部の発赤が悪化してきました。<br>
@@ -229,7 +241,6 @@
                         </div>
                         <span class="text-xs text-slate-400 mt-1 ml-10">14:21</span>
                     </div>
-                    
                 </div>
                 <div class="p-3 bg-white border-t border-slate-200 flex gap-2">
                     <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500"><i class="fas fa-camera"></i></div>
@@ -242,7 +253,6 @@
         </div>
     </section>
 
-    <!-- Authority & Members Section -->
     <section class="py-12 md:py-20 bg-white">
         <div class="container mx-auto px-5 md:px-6">
             <div class="mb-12">
@@ -266,10 +276,8 @@
                 </div>
             </div>
 
-            <!-- Members Grid (3 Columns) -->
             <div class="grid md:grid-cols-1 gap-8">
                 
-                <!-- Member 1: Dr. Miake (Dermatologist) -->
                 <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-center shadow-sm">
                     <div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white shadow-md flex-shrink-0">
                         <img src="drmiake_real.JPG" alt="Dr. Miake" class="w-full h-full object-cover">
@@ -286,14 +294,13 @@
                     </div>
                 </div>
 
-                <!-- Member 2: Dr. Lion (CEO/Regenerative Medicine) -->
                 <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-center shadow-sm">
                     <div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white shadow-md flex-shrink-0">
                         <img src="drlion.jpg" alt="Dr. Lion" class="w-full h-full object-cover">
                     </div>
                     <div class="flex-1 text-center md:text-left">
                         <div class="mb-2">
-                            <span class="inline-block bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded font-bold mb-1">株式会社Med-Ai 代表（CEO）・医師</span>
+                            <span class="inline-block bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded font-bold mb-1">株式会社Med-Ai 代表医師</span>
                             <h3 class="text-xl font-bold text-slate-800">ライオン 医師 (Dr. Lion)</h3>
                         </div>
                         <p class="text-sm text-slate-600 leading-relaxed">
@@ -303,26 +310,24 @@
                     </div>
                 </div>
 
-                <!-- Member 3: Dr. Saibi (CTO/Technical Lead) -->
                 <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-center shadow-sm">
                     <div class="w-32 h-32 md:w-40 md:h-40 rounded-full overflow-hidden border-4 border-white shadow-md flex-shrink-0 bg-slate-200">
                         <img src="drsaibi.png" alt="Dr. Saibi" class="w-full h-full object-cover">
                     </div>
                     <div class="flex-1 text-center md:text-left">
                         <div class="mb-2">
-                            <span class="inline-block bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded font-bold mb-1">株式会社Med-Ai 技術責任者 (CTO)</span>
+                            <span class="inline-block bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded font-bold mb-1">技術責任者 (CTO)</span>
                             <h3 class="text-xl font-bold text-slate-800">サイビ 医師 (Dr. Saibi)</h3>
                         </div>
                         <p class="text-sm text-slate-600 leading-relaxed">
                             【ダミープロフィール】<br>
-                            SE出身の現役医学生。エンジニアとしても活動。医療現場のニーズと最新技術の架け橋となるべく、本サービスのシステム設計・開発を一手に担う。セキュリティと使いやすさを両立させたUI/UXデザインを追求している。
+                            医師免許を持ちながらエンジニアとしても活動。医療現場のニーズと最新技術の架け橋となるべく、本サービスのシステム設計・開発を一手に担う。セキュリティと使いやすさを両立させたUI/UXデザインを追求している。
                         </p>
                     </div>
                 </div>
 
             </div>
 
-            <!-- Upsell Area (Moved below members) -->
             <div class="mt-12 bg-orange-50 border border-orange-200 rounded-xl p-6 shadow-sm max-w-3xl mx-auto">
                 <h4 class="font-bold text-orange-800 mb-2 text-lg"><i class="fas fa-chalkboard-teacher mr-2"></i>教育・研修もサポート</h4>
                 <p class="text-sm text-orange-700 mb-3 leading-relaxed">
@@ -376,9 +381,85 @@
                     <span class="bg-red-500 text-white text-xs px-2 py-1 rounded mb-4 inline-block">今すぐ導入したい方</span>
                     <h3 class="text-xl md:text-2xl font-bold mb-3 md:mb-4">コンサルト申し込み</h3>
                     <p class="text-slate-300 mb-6 md:mb-8 text-sm">月額定額制・相談し放題プラン。<br>まずは1ヶ月お試しください。</p>
-                    <button class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 md:py-4 rounded-lg shadow-lg transition transform hover:scale-105">
+                    <button class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-3 md:py-4 rounded-lg shadow-lg transition transform hover:scale-105" onclick="toggleRegistrationForm()">
                         利用登録フォームへ
                     </button>
+
+                    <div id="registration-form-container" class="hidden text-left mt-8 bg-slate-100 rounded-xl p-6 text-slate-800">
+                        <h4 class="text-lg font-bold mb-4 text-center border-b pb-2">利用登録フォーム</h4>
+                        <form id="registrationForm" class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-bold mb-1">施設名 <span class="text-red-500">*</span></label>
+                                <input type="text" name="facilityName" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold mb-1">施設カテゴリ <span class="text-red-500">*</span></label>
+                                <select name="facilityCategory" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <option value="" disabled selected>選択してください</option>
+                                    <option value="病院">病院</option>
+                                    <option value="クリニック">クリニック</option>
+                                    <option value="訪問診療">訪問診療</option>
+                                    <option value="老健施設">老健施設</option>
+                                    <option value="その他">その他</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold mb-1">診療科</label>
+                                <button type="button" onclick="toggleDepartments()" class="w-full text-left px-3 py-2 border rounded-lg bg-white flex justify-between items-center focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <span>診療科を選択</span>
+                                    <i class="fas fa-chevron-down text-slate-400"></i>
+                                </button>
+                                <div id="department-list" class="hidden bg-white border border-t-0 rounded-b-lg p-3 max-h-40 overflow-y-auto grid grid-cols-2 gap-2 text-sm">
+                                    <label><input type="checkbox" name="department" value="内科"> 内科</label>
+                                    <label><input type="checkbox" name="department" value="外科"> 外科</label>
+                                    <label><input type="checkbox" name="department" value="整形外科"> 整形外科</label>
+                                    <label><input type="checkbox" name="department" value="脳神経外科"> 脳神経外科</label>
+                                    <label><input type="checkbox" name="department" value="小児科"> 小児科</label>
+                                    <label><input type="checkbox" name="department" value="精神科"> 精神科</label>
+                                    <label><input type="checkbox" name="department" value="皮膚科"> 皮膚科</label>
+                                    <label><input type="checkbox" name="department" value="泌尿器科"> 泌尿器科</label>
+                                    <label><input type="checkbox" name="department" value="眼科"> 眼科</label>
+                                    <label><input type="checkbox" name="department" value="耳鼻咽喉科"> 耳鼻咽喉科</label>
+                                    <label><input type="checkbox" name="department" value="リハビリテーション科"> リハビリテーション科</label>
+                                    <label><input type="checkbox" name="department" value="その他"> その他</label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold mb-1">担当者氏名 <span class="text-red-500">*</span></label>
+                                <input type="text" name="contactName" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold mb-1">担当者役職</label>
+                                <select name="contactPosition" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <option value="" disabled selected>選択してください</option>
+                                    <option value="理事">理事</option>
+                                    <option value="部長">部長</option>
+                                    <option value="指導医">指導医</option>
+                                    <option value="研修医">研修医</option>
+                                    <option value="事務局">事務局</option>
+                                    <option value="その他">その他</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-bold mb-1">連絡先メールアドレス <span class="text-red-500">*</span></label>
+                                <input type="email" name="contactEmail" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                            </div>
+
+                             <div>
+                                <label class="block text-sm font-bold mb-1">施設ホームページURL</label>
+                                <input type="url" name="facilityUrl" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="https://...">
+                            </div>
+
+                            <button type="button" onclick="submitForm()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg shadow mt-4">
+                                送信内容を確認してメールを送る
+                            </button>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="bg-white p-6 md:p-8 rounded-2xl text-slate-800 border-4 border-green-500" id="cta-b">
@@ -400,5 +481,67 @@
         </div>
     </footer>
 
+    <script>
+        function toggleRegistrationForm() {
+            const container = document.getElementById('registration-form-container');
+            const formContainer = document.getElementById('registration-form-container');
+            
+            if (formContainer.classList.contains('hidden')) {
+                formContainer.classList.remove('hidden');
+                // Small delay to allow removal of hidden class before animation
+                setTimeout(() => {
+                    formContainer.classList.add('open');
+                }, 10);
+            } else {
+                 formContainer.classList.remove('open');
+                 setTimeout(() => {
+                    formContainer.classList.add('hidden');
+                 }, 500); // Wait for transition
+            }
+        }
+
+        function toggleDepartments() {
+            const list = document.getElementById('department-list');
+            list.classList.toggle('hidden');
+        }
+
+        function submitForm() {
+            const form = document.getElementById('registrationForm');
+            if (!form.checkValidity()) {
+                alert('必須項目を入力してください。');
+                return;
+            }
+
+            const formData = new FormData(form);
+            const facilityName = formData.get('facilityName');
+            const facilityCategory = formData.get('facilityCategory');
+            
+            // Get all checked departments
+            const departments = [];
+            form.querySelectorAll('input[name="department"]:checked').forEach(checkbox => {
+                departments.push(checkbox.value);
+            });
+            const departmentStr = departments.join(', ');
+
+            const contactName = formData.get('contactName');
+            const contactPosition = formData.get('contactPosition');
+            const contactEmail = formData.get('contactEmail');
+            const facilityUrl = formData.get('facilityUrl');
+
+            const subject = encodeURIComponent('【利用登録申込】' + facilityName);
+            const body = encodeURIComponent(
+                `以下の内容で利用登録の申し込みを行います。\n\n` +
+                `施設名: ${facilityName}\n` +
+                `施設カテゴリ: ${facilityCategory}\n` +
+                `診療科: ${departmentStr}\n` +
+                `担当者氏名: ${contactName}\n` +
+                `担当者役職: ${contactPosition}\n` +
+                `連絡先メールアドレス: ${contactEmail}\n` +
+                `施設HP URL: ${facilityUrl}\n`
+            );
+
+            window.location.href = `mailto:example@example.com?subject=${subject}&body=${body}`;
+        }
+    </script>
 </body>
 </html>
