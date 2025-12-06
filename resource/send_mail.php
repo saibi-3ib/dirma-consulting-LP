@@ -41,7 +41,7 @@ $facilityUrl = isset($input['facilityUrl']) ? htmlspecialchars($input['facilityU
 
 // メール送信設定
 // ★受信先アドレスを実際の運用アドレスに変更してください
-$to = 'example@example.com'; 
+$to = 'med.ai.rep@gmail.com'; 
 $subject = "【利用登録申込】" . $facilityName . "様";
 
 $message = "以下の内容で利用登録の申し込みがありました。\n\n";
