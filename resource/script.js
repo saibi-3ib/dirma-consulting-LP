@@ -105,3 +105,59 @@ function submitForm() {
         console.error('Error:', error);
     });
 }
+
+// ページの読み込み完了を待たずに、HTMLの解釈が終わったらすぐに表示する
+document.addEventListener('DOMContentLoaded', () => {
+    // もしページ全体を覆うローディング画面があるなら、ここで非表示にするクラスを付与
+    const loader = document.getElementById('global-loader'); // ※もしあれば
+    if (loader) {
+        loader.classList.add('opacity-0', 'pointer-events-none');
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 500);
+    }
+});
+
+// 動画の遅延読み込み＆自動再生制御
+document.addEventListener("DOMContentLoaded", function() {
+    // class="lazy" がついた動画を対象にする
+    var lazyVideos = [].slice.call(document.querySelectorAll("video.lazy"));
+
+    if ("IntersectionObserver" in window) {
+        var lazyVideoObserver = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(function(video) {
+                if (video.isIntersecting) {
+                    // 画面内に入ったら実行
+                    var videoElement = video.target;
+                    
+                    // data-src を src に書き戻す
+                    var sources = videoElement.children;
+                    for (var i = 0; i < sources.length; i++) {
+                        var source = sources[i];
+                        if (source.tagName === "SOURCE" && source.dataset.src) {
+                            source.src = source.dataset.src;
+                        }
+                    }
+
+                    // 読み込み開始
+                    videoElement.load();
+                    videoElement.classList.remove("lazy");
+                    
+                    // 明示的に再生を実行（スマホ対策）
+                    var playPromise = videoElement.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.log("自動再生がブロックされました（省電力モード等の可能性があります）:", error);
+                        });
+                    }
+
+                    lazyVideoObserver.unobserve(videoElement);
+                }
+            });
+        });
+
+        lazyVideos.forEach(function(lazyVideo) {
+            lazyVideoObserver.observe(lazyVideo);
+        });
+    }
+});
