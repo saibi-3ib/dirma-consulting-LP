@@ -50,7 +50,7 @@ $body .= "■担当者情報\n";
 $body .= "氏名: $contactName\n";
 $body .= "役職: $contactPosition\n";
 $body .= "Email: $contactEmail\n";
-$body .= "\n--\n送信元: ダーマコンサルランディングページ(https://med-ai-rep.com/derma-consulting/LP.html)";
+$body .= "\n--\n送信元: ダーマコンサルランディングページ(https://medai.jp/derma-consulting/LP.html)";
 
 // SMTP送信関数（シンプル版）
 function send_smtp_mail($to, $subject, $body, $from, $host, $port, $user, $pass) {

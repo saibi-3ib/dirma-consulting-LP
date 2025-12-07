@@ -5,19 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ダーマコンサル - 皮膚科専門医によるオンラインコンサルトサービス</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
         body { font-family: 'Noto Sans JP', sans-serif; }
         
         .video-background {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 80%;
+            top: 0; left: 0; width: 100%; height: 100%;
             object-fit: cover; z-index: -1;
         }
         .overlay {
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 80%;
+            top: 0; left: 0; width: 100%; height: 100%;
             background: linear-gradient(to right, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.4));
             z-index: 0;
         }
@@ -247,10 +247,13 @@
                             <span class="inline-block bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded font-bold mb-1">株式会社Med-Ai 代表医師</span>
                             <h3 class="text-xl font-bold text-slate-800">らいおん (Dr.Lion)</h3>
                         </div>
-                        <p class="text-sm text-slate-600 leading-relaxed">
+                        <p class="text-sm text-slate-600 leading-relaxed mb-3">
                             医師、研究者、経営者。クリニックの院長と医療法人の副理事長を兼任しながら、自らの法人を設立。上場企業やクリニックの顧問やコンサルを務める。
-                            <br>X：https://x.com/drlion1111
                         </p>
+                        <a href="https://x.com/drlion1111" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-black text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-gray-800 transition shadow-md">
+                            <i class="fa-brands fa-x-twitter mr-2 text-lg"></i>
+                            Follow
+                        </a>
                     </div>
                 </div>
                 <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6 flex flex-col md:flex-row gap-6 items-center shadow-sm">
@@ -262,10 +265,13 @@
                             <span class="inline-block bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded font-bold mb-1">技術責任者 (CTO)</span>
                             <h3 class="text-xl font-bold text-slate-800">さいびー</h3>
                         </div>
-                        <p class="text-sm text-slate-600 leading-relaxed">
+                        <p class="text-sm text-slate-600 leading-relaxed mb-3">
                             大学卒業後、SE、プログラマを経て、医学部に入学。医療現場のニーズと最新IT技術の架け橋となるべく、本サービスのシステム設計・開発を一手に担う。セキュリティと使いやすさを両立させたUI/UXデザインを追求している。
-                            <br>X：https://x.com/saibi_3ib
                         </p>
+                        <a href="https://x.com/saibi_3ib" target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-black text-white px-4 py-2 rounded-full text-sm font-bold hover:bg-gray-800 transition shadow-md">
+                            <i class="fa-brands fa-x-twitter mr-2 text-lg"></i>
+                            Follow
+                        </a>
                     </div>
                 </div>
             </div>
@@ -309,88 +315,105 @@
 
             <div class="flex flex-col gap-12 max-w-3xl mx-auto">
                 
-                <div class="bg-slate-700 p-6 md:p-8 rounded-2xl border border-slate-600 text-left">
-                    <div class="text-center mb-6">
-                        <span class="bg-red-500 text-white text-xs px-2 py-1 rounded mb-4 inline-block">今すぐ導入したい方</span>
-                        <h3 class="text-xl md:text-2xl font-bold mb-2">コンサルト申し込み</h3>
-                        <p class="text-slate-300 text-sm">以下のフォームに入力してください。</p>
-                    </div>
+                <div class="bg-slate-700 p-6 md:p-8 rounded-2xl border border-slate-600 text-left relative overflow-hidden transition-all duration-500">
+                    
+                    <div id="form-wrapper" class="transition-all duration-700 ease-in-out opacity-100 max-h-[2000px] overflow-hidden">
+                        <div class="text-center mb-6">
+                            <span class="bg-red-500 text-white text-xs px-2 py-1 rounded mb-4 inline-block">今すぐ導入したい方</span>
+                            <h3 class="text-xl md:text-2xl font-bold mb-2">コンサルト申し込み</h3>
+                            <p class="text-slate-300 text-sm">以下のフォームに入力してください。</p>
+                        </div>
 
-                    <div class="bg-slate-100 rounded-xl p-6 text-slate-800">
-                        <form id="registrationForm" class="space-y-4">
-                            <div>
-                                <label class="block text-sm font-bold mb-1">施設名 <span class="text-red-500">*</span></label>
-                                <input type="text" name="facilityName" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                                <div class="error-message text-red-500 text-xs mt-1 font-bold hidden">施設名を入力してください</div>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-bold mb-1">施設カテゴリ <span class="text-red-500">*</span></label>
-                                <select name="facilityCategory" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                                    <option value="" disabled selected>選択してください</option>
-                                    <option value="病院">病院</option>
-                                    <option value="クリニック">クリニック</option>
-                                    <option value="訪問診療">訪問診療</option>
-                                    <option value="老健施設">老健施設</option>
-                                    <option value="その他">その他</option>
-                                </select>
-                                <div class="error-message text-red-500 text-xs mt-1 font-bold hidden">施設カテゴリを選択してください</div>
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-bold mb-1">診療科</label>
-                                <div class="bg-white border rounded-lg p-3 grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="内科"><span>内科</span></label>
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="外科"><span>外科</span></label>
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="整形外科"><span>整形外科</span></label>
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="脳神経外科"><span>脳神経外科</span></label>
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="小児科"><span>小児科</span></label>
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="精神科"><span>精神科</span></label>
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="皮膚科"><span>皮膚科</span></label>
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="泌尿器科"><span>泌尿器科</span></label>
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="眼科"><span>眼科</span></label>
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="耳鼻咽喉科"><span>耳鼻咽喉科</span></label>
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="リハ科"><span>リハ科</span></label>
-                                    <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="その他"><span>その他</span></label>
+                        <div class="bg-slate-100 rounded-xl p-6 text-slate-800">
+                            <form id="registrationForm" class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-bold mb-1">施設名 <span class="text-red-500">*</span></label>
+                                    <input type="text" name="facilityName" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <div class="error-message text-red-500 text-xs mt-1 font-bold hidden">施設名を入力してください</div>
                                 </div>
-                            </div>
 
-                            <div>
-                                <label class="block text-sm font-bold mb-1">担当者氏名 <span class="text-red-500">*</span></label>
-                                <input type="text" name="contactName" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                                <div class="error-message text-red-500 text-xs mt-1 font-bold hidden">担当者氏名を入力してください</div>
-                            </div>
+                                <div>
+                                    <label class="block text-sm font-bold mb-1">施設カテゴリ <span class="text-red-500">*</span></label>
+                                    <select name="facilityCategory" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                        <option value="" disabled selected>選択してください</option>
+                                        <option value="病院">病院</option>
+                                        <option value="クリニック">クリニック</option>
+                                        <option value="訪問診療">訪問診療</option>
+                                        <option value="老健施設">老健施設</option>
+                                        <option value="その他">その他</option>
+                                    </select>
+                                    <div class="error-message text-red-500 text-xs mt-1 font-bold hidden">施設カテゴリを選択してください</div>
+                                </div>
 
-                            <div>
-                                <label class="block text-sm font-bold mb-1">担当者役職</label>
-                                <select name="contactPosition" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                                    <option value="" disabled selected>選択してください</option>
-                                    <option value="理事">理事</option>
-                                    <option value="部長">部長</option>
-                                    <option value="指導医">指導医</option>
-                                    <option value="研修医">研修医</option>
-                                    <option value="事務局">事務局</option>
-                                    <option value="その他">その他</option>
-                                </select>
-                            </div>
+                                <div>
+                                    <label class="block text-sm font-bold mb-1">診療科</label>
+                                    <div class="bg-white border rounded-lg p-3 grid grid-cols-2 md:grid-cols-3 gap-2 text-sm">
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="内科"><span>内科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="外科"><span>外科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="整形外科"><span>整形外科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="脳神経外科"><span>脳神経外科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="小児科"><span>小児科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="精神科"><span>精神科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="皮膚科"><span>皮膚科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="泌尿器科"><span>泌尿器科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="眼科"><span>眼科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="耳鼻咽喉科"><span>耳鼻咽喉科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="リハ科"><span>リハ科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="その他"><span>その他</span></label>
+                                    </div>
+                                </div>
 
-                            <div>
-                                <label class="block text-sm font-bold mb-1">連絡先メールアドレス <span class="text-red-500">*</span></label>
-                                <input type="email" name="contactEmail" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                                <div class="error-message text-red-500 text-xs mt-1 font-bold hidden">正しいメールアドレスを入力してください</div>
-                            </div>
+                                <div>
+                                    <label class="block text-sm font-bold mb-1">担当者氏名 <span class="text-red-500">*</span></label>
+                                    <input type="text" name="contactName" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <div class="error-message text-red-500 text-xs mt-1 font-bold hidden">担当者氏名を入力してください</div>
+                                </div>
 
-                            <div>
-                                <label class="block text-sm font-bold mb-1">施設ホームページURL</label>
-                                <input type="url" name="facilityUrl" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="https://...">
-                            </div>
+                                <div>
+                                    <label class="block text-sm font-bold mb-1">担当者役職</label>
+                                    <select name="contactPosition" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                        <option value="" disabled selected>選択してください</option>
+                                        <option value="理事">理事</option>
+                                        <option value="部長">部長</option>
+                                        <option value="指導医">指導医</option>
+                                        <option value="研修医">研修医</option>
+                                        <option value="事務局">事務局</option>
+                                        <option value="その他">その他</option>
+                                    </select>
+                                </div>
 
-                            <button type="button" onclick="submitForm()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg shadow mt-4 transition transform active:scale-95">
-                                送信する
-                            </button>
-                            <div id="form-result" class="text-center text-sm font-bold mt-2 hidden"></div>
-                        </form>
+                                <div>
+                                    <label class="block text-sm font-bold mb-1">連絡先メールアドレス <span class="text-red-500">*</span></label>
+                                    <input type="email" name="contactEmail" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
+                                    <div class="error-message text-red-500 text-xs mt-1 font-bold hidden">正しいメールアドレスを入力してください</div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-bold mb-1">施設ホームページURL</label>
+                                    <input type="url" name="facilityUrl" class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="https://...">
+                                </div>
+
+                                <button type="button" id="submitButton" onclick="submitForm()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg shadow mt-4 transition transform active:scale-95 flex justify-center items-center gap-2">
+                                    <span id="btnText">送信する</span>
+                                    <span id="btnLoader" class="hidden"><i class="fas fa-spinner fa-spin"></i> 送信中...</span>
+                                </button>
+                                
+                                <div id="form-result" class="text-center text-sm font-bold mt-2 hidden"></div>
+                            </form>
+                        </div>
                     </div>
+
+                    <div id="success-message" class="hidden flex-col items-center justify-center py-10 text-center transition-all duration-700 ease-in-out opacity-0 translate-y-4">
+                        <div class="w-20 h-20 bg-green-500 rounded-full flex items-center justify-center text-white text-4xl mb-6 shadow-lg animate-bounce">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold mb-4 text-white">送信が完了しました</h3>
+                        <p class="text-slate-300 leading-relaxed">
+                            お問い合わせありがとうございます。<br>
+                            内容を確認の上、担当者よりご連絡いたします。
+                        </p>
+                    </div>
+
                 </div>
 
                 <div class="bg-white p-6 md:p-8 rounded-2xl text-slate-800 border-4 border-green-500">
