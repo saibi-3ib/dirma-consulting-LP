@@ -17,7 +17,7 @@ if (!$input) {
     exit;
 }
 
-// データの整形
+// データの整形（入力がない場合は空文字を入れる）
 $facilityName = htmlspecialchars($input['facilityName'] ?? '');
 $facilityCategory = htmlspecialchars($input['facilityCategory'] ?? '');
 $departments = isset($input['department']) ? (is_array($input['department']) ? implode(', ', $input['department']) : $input['department']) : 'なし';
@@ -27,14 +27,15 @@ $contactEmail = htmlspecialchars($input['contactEmail'] ?? '');
 $facilityUrl = isset($input['facilityUrl']) ? htmlspecialchars($input['facilityUrl']) : 'なし';
 
 // ===================================================
-// ★ 設定 (書き換えてください)
+// ★ 設定
 // ===================================================
 $smtp_host = 'ssl://smtp.gmail.com'; 
 $smtp_port = 465;
 $username = 'med.ai.rep@gmail.com';  
 $password = 'ypyf jetc rrja hvyx'; // アプリパスワード
 
-$to = 'med.ai.rep+LP@gmail.com'; // テスト用宛先
+// 運用に合わせて変更してください
+$to = 'med.ai.rep+LP@gmail.com'; 
 $subject = "【利用登録申込】" . $facilityName . "様";
 $from = 'med.ai.rep@gmail.com';
 // ===================================================
@@ -49,81 +50,66 @@ $body .= "■担当者情報\n";
 $body .= "氏名: $contactName\n";
 $body .= "役職: $contactPosition\n";
 $body .= "Email: $contactEmail\n";
-$body .= "\n--\n送信元: ダーマコンサルランディングページ (https://med-ai-rep.com/derma-consulting/LP.html)";
+$body .= "\n--\n送信元: ダーマコンサルランディングページ(https://med-ai-rep.com/derma-consulting/LP.html)";
 
-// SMTP送信関数（詳細ログ付き）
+// SMTP送信関数（シンプル版）
 function send_smtp_mail($to, $subject, $body, $from, $host, $port, $user, $pass) {
-    $debug_log = []; // ログ記録用
-    
     $socket = fsockopen($host, $port, $errno, $errstr, 30);
-    if (!$socket) {
-        return ['result' => false, 'log' => "Socket Error: $errstr ($errno)"];
-    }
+    if (!$socket) return false;
 
-    // サーバーからの応答を読み取るヘルパー関数
-    $getResponse = function($socket) {
-        $data = "";
-        while($str = fgets($socket, 512)) {
-            $data .= $str;
-            if(substr($str, 3, 1) == " ") break;
-        }
-        return $data;
-    };
+    // サーバーからの応答を読み捨てる関数
+    $read = function($s) { while($str = fgets($s, 512)) if(substr($str, 3, 1) == " ") break; };
 
-    $debug_log[] = "CONNECT: " . $getResponse($socket);
+    $read($socket); // 接続時の応答
 
     fputs($socket, "EHLO " . $_SERVER['SERVER_NAME'] . "\r\n");
-    $debug_log[] = "EHLO: " . $getResponse($socket);
+    $read($socket);
 
     fputs($socket, "AUTH LOGIN\r\n");
-    $debug_log[] = "AUTH LOGIN: " . $getResponse($socket);
+    $read($socket);
 
     fputs($socket, base64_encode($user) . "\r\n");
-    $debug_log[] = "USER: " . $getResponse($socket);
+    $read($socket);
 
     fputs($socket, base64_encode($pass) . "\r\n");
-    $debug_log[] = "PASS: " . $getResponse($socket);
+    $read($socket);
 
     fputs($socket, "MAIL FROM: <$from>\r\n");
-    $debug_log[] = "MAIL FROM: " . $getResponse($socket);
+    $read($socket);
 
     fputs($socket, "RCPT TO: <$to>\r\n");
-    $debug_log[] = "RCPT TO: " . $getResponse($socket);
+    $read($socket);
 
     fputs($socket, "DATA\r\n");
-    $debug_log[] = "DATA: " . $getResponse($socket);
+    $read($socket);
 
-    // ★重要：Gmailに弾かれないためのヘッダー強化★
+    // ヘッダー作成
     $headers = "From: $from\r\n";
     $headers .= "Reply-To: $from\r\n";
     $headers .= "To: $to\r\n";
-    $headers .= "Date: " . date('r') . "\r\n"; // 必須：RFC形式の日付
-    $headers .= "Message-ID: <" . md5(uniqid(time())) . "@gmail.com>\r\n"; // 必須：ユニークID
+    $headers .= "Date: " . date('r') . "\r\n";
+    $headers .= "Message-ID: <" . md5(uniqid(time())) . "@gmail.com>\r\n";
     $headers .= "MIME-Version: 1.0\r\n";
     $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
     $headers .= "Content-Transfer-Encoding: 8bit\r\n";
     $headers .= "Subject: =?UTF-8?B?" . base64_encode($subject) . "?=\r\n";
 
     fputs($socket, "$headers\r\n$body\r\n.\r\n");
-    $final_response = $getResponse($socket);
-    $debug_log[] = "BODY END: " . $final_response;
-
+    
+    // 送信結果の確認
+    $result = fgets($socket, 512); 
+    
     fputs($socket, "QUIT\r\n");
     fclose($socket);
 
-    // 成功判定 (250 OK が返ってきているか)
-    $is_success = strpos($final_response, '250') !== false;
-    
-    return ['result' => $is_success, 'log' => $debug_log];
+    // 250 OK なら成功
+    return strpos($result, '250') !== false;
 }
 
 // 実行
-$response = send_smtp_mail($to, $subject, $body, $from, $smtp_host, $smtp_port, $username, $password);
-
-if ($response['result']) {
-    // 成功時もデバッグログを返す（確認用）
-    echo json_encode(['status' => 'success', 'debug_log' => $response['log']]);
+if (send_smtp_mail($to, $subject, $body, $from, $smtp_host, $smtp_port, $username, $password)) {
+    echo json_encode(['status' => 'success']);
 } else {
-    echo json_encode(['status' => 'error', 'message' => 'Mail sending failed.', 'debug_log' => $response['log']]);
+    echo json_encode(['status' => 'error', 'message' => 'Mail sending failed.']);
 }
 ?>
