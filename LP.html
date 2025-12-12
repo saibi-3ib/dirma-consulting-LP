@@ -5,6 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ダーマコンサル - 皮膚科専門医によるオンラインコンサルトサービス</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#e0f2f7', 
+                            DEFAULT: '#2c8a9e', 
+                            dark: '#1e6070',  
+                        }
+                    }
+                }
+            }
+        }
+    </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
@@ -18,7 +33,7 @@
         .overlay {
             position: absolute;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: linear-gradient(to right, rgba(15, 23, 42, 0.8), rgba(15, 23, 42, 0.4));
+            background: linear-gradient(to right, rgba(15, 30, 40, 0.85), rgba(30, 60, 70, 0.5));
             z-index: 0;
         }
         .chat-bubble-left {
@@ -29,20 +44,26 @@
             background-color: #dcf8c6; border-radius: 18px 18px 0 18px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.05);
         }
+        
+        .text-balance {
+            text-wrap: balance;
+        }
     </style>
 </head>
 <body class="bg-slate-50 text-slate-800">
 
-    <header class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50">
+    <header class="fixed w-full bg-white/95 backdrop-blur-sm shadow-sm z-50 border-b border-slate-100">
         <div class="container mx-auto px-5 md:px-6 py-3 md:py-4 flex justify-between items-center">
-            <div class="text-xl md:text-2xl font-bold text-slate-800">ダーマコンサル</div>
-            <a href="#cta" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 md:px-5 md:py-2 rounded-full font-bold text-xs md:text-sm transition">
+            <div class="flex items-center">
+                <img src="resource/logo_yoko.png" alt="ダーマコンサル" class="h-8 md:h-10 w-auto object-contain">
+            </div>
+            <a href="#cta" class="bg-brand hover:bg-brand-dark text-white px-4 py-2 md:px-5 md:py-2 rounded-full font-bold text-xs md:text-sm transition shadow-md">
                 お問い合わせ
             </a>
         </div>
     </header>
 
-    <section class="relative min-h-[80svh] flex items-center justify-center overflow-hidden text-white py-20 md:py-0">
+    <section class="relative min-h-[80svh] flex items-center justify-center overflow-hidden text-white py-24 md:py-0">
         <video class="video-background lazy" autoplay loop muted playsinline preload="none" poster="resource/movie_poster.jpg">
             <source data-src="resource/derma-consulting-LP_movie.mp4" type="video/mp4">
         </video>
@@ -50,18 +71,21 @@
 
         <div class="container mx-auto px-5 md:px-6 relative z-10 text-center md:text-left md:flex md:items-center">
             <div class="md:w-3/4">
-                <div class="inline-block bg-blue-600/90 px-3 py-1 rounded-sm text-xs md:text-sm font-bold mb-4 tracking-wider border border-blue-400">
+                <div class="inline-block bg-brand/90 px-3 py-1 rounded-sm text-xs md:text-sm font-bold mb-4 tracking-wider border border-brand-light/30">
                     皮膚科専門医によるオンラインコンサルト
                 </div>
-                <h1 class="text-3xl md:text-5xl font-bold leading-tight mb-6 drop-shadow-lg">
-                    「あなたのポケットに専門医を。」
+                
+                <h1 class="text-[1.75rem] md:text-5xl lg:text-6xl font-black leading-tight mb-6 drop-shadow-xl text-balance tracking-tight">
+                    あなたのポケットに<br class="hidden md:inline">専門医を。
                 </h1>
-                <p class="text-lg md:text-2xl mb-8 text-blue-100 font-bold drop-shadow-md leading-relaxed">
+                
+                <p class="text-base md:text-2xl mb-8 text-brand-light font-bold drop-shadow-md leading-relaxed border-l-4 border-brand pl-4">
                     訪問診療医を孤立させない。<br>
                     患者さんの皮膚疾患を放置させない。
                 </p>
+                
                 <div class="flex flex-col md:flex-row gap-4">
-                    <a href="#cta" class="bg-green-500 hover:bg-green-600 text-white text-center px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition transform hover:-translate-y-1 w-full md:w-auto">
+                    <a href="#cta" class="bg-green-500 hover:bg-green-600 text-white text-center px-8 py-4 rounded-lg font-bold text-lg shadow-lg transition transform hover:-translate-y-1 w-full md:w-auto border-b-4 border-green-700">
                         今すぐサポートを開始する
                     </a>
                 </div>
@@ -73,79 +97,83 @@
     <section class="py-12 bg-white border-b border-slate-100">
         <div class="container mx-auto px-5 md:px-6">
             <p class="text-center text-slate-500 text-sm mb-6 font-bold">即効性のあるコンサルティングを求める、<br class="md:hidden">様々な現場の医師を支えます。</p>
-            <div class="flex flex-wrap justify-center gap-4 md:gap-8">
-                <div class="flex items-center bg-slate-50 px-4 py-2 rounded-full border border-slate-200">
-                    <i class="fas fa-check text-green-500 mr-2"></i><span class="font-bold text-sm md:text-base">訪問診療クリニックの先生</span>
+            <div class="flex flex-wrap justify-center gap-3 md:gap-6">
+                <div class="flex items-center bg-brand-light/30 px-4 py-2 rounded-full border border-brand/20 text-slate-700">
+                    <i class="fas fa-check text-brand mr-2"></i><span class="font-bold text-sm md:text-base">訪問診療クリニック</span>
                 </div>
-                <div class="flex items-center bg-slate-50 px-4 py-2 rounded-full border border-slate-200">
-                    <i class="fas fa-check text-green-500 mr-2"></i><span class="font-bold text-sm md:text-base">療養型病院の先生</span>
+                <div class="flex items-center bg-brand-light/30 px-4 py-2 rounded-full border border-brand/20 text-slate-700">
+                    <i class="fas fa-check text-brand mr-2"></i><span class="font-bold text-sm md:text-base">療養型病院</span>
                 </div>
-                <div class="flex items-center bg-slate-50 px-4 py-2 rounded-full border border-slate-200">
-                    <i class="fas fa-check text-green-500 mr-2"></i><span class="font-bold text-sm md:text-base">整形外科や精神科などの単科病院の先生</span>
+                <div class="flex items-center bg-brand-light/30 px-4 py-2 rounded-full border border-brand/20 text-slate-700">
+                    <i class="fas fa-check text-brand mr-2"></i><span class="font-bold text-sm md:text-base">整形外科・精神科病院</span>
                 </div>
-                <div class="flex items-center bg-slate-50 px-4 py-2 rounded-full border border-slate-200">
-                    <i class="fas fa-check text-green-500 mr-2"></i><span class="font-bold text-sm md:text-base">複数の施設を管理する理事長先生</span>
+                <div class="flex items-center bg-brand-light/30 px-4 py-2 rounded-full border border-brand/20 text-slate-700">
+                    <i class="fas fa-check text-brand mr-2"></i><span class="font-bold text-sm md:text-base">施設長・理事長</span>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="py-12 md:py-20 bg-slate-100 relative">
+    <section class="py-12 md:py-20 bg-slate-50 relative">
         <div class="container mx-auto px-5 md:px-6">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 md:mb-16 text-slate-800 leading-snug">
-                現場で、こんな皮膚トラブルの<br class="md:hidden">判断に迷ったことはありませんか？
+            <h2 class="text-2xl md:text-4xl font-bold text-center mb-10 md:mb-16 text-slate-800 leading-snug text-balance">
+                現場で、こんな皮膚トラブルの判断に迷ったことはありませんか？
             </h2>
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div class="bg-white p-6 rounded-2xl shadow-sm md:col-span-2 lg:col-span-1 flex flex-col">
-                    <div class="text-green-500 text-3xl mb-3"><i class="fas fa-pills"></i></div>
+                <div class="bg-white p-6 rounded-2xl shadow-sm md:col-span-2 lg:col-span-1 flex flex-col border border-slate-100">
+                    <div class="text-brand text-3xl mb-3"><i class="fas fa-pills"></i></div>
                     <div class="flex-1">
                         <h3 class="font-bold text-lg text-slate-800 mb-2">「ステロイド、種類が多すぎて何を処方したら良いの？」</h3>
                         <p class="text-sm text-slate-500 mb-4">強さのランク、基剤の選び方...添付文書を見ても迷ってしまう。</p>
                     </div>
-                    <div class="bg-slate-200 h-72 rounded-xl overflow-hidden relative group">
-                         <img src="resource/steroids_photo1.jpeg" alt="ステロイドの強さ一覧表" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-500" loading="lazy">
+                    <div class="bg-slate-200 h-56 md:h-64 w-full rounded-xl overflow-hidden relative group">
+                         <img src="resource/steroids_photo1.jpeg" alt="ステロイドの強さ一覧表" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100" loading="lazy">
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                     <div class="text-[#D2691E] text-3xl mb-3"><i class="fas fa-crutch"></i></div>
                     <h3 class="font-bold text-lg text-slate-800 mb-2">「この褥瘡、自分で診れる範囲の重症度？」</h3>
                     <p class="text-sm text-slate-600">デブリは必要？ゲーベンでいい？処置の方針に自信が持てない。</p>
-                    <div class="bg-slate-200 h-72 rounded-xl overflow-hidden relative group">
-                         <img src="resource/jyokuso.JPG" alt="褥瘡" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-500" loading="lazy">
+                    <div class="bg-slate-200 h-56 md:h-64 w-full rounded-xl overflow-hidden relative group">
+                         <img src="resource/jyokuso.JPG" alt="褥瘡" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100" loading="lazy">
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm">
-                    <div class="text-yellow-400 text-3xl mb-3"><i class="fas fa-exclamation-triangle"></i></div>
+                
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
+                    <div class="text-yellow-500 text-3xl mb-3"><i class="fas fa-exclamation-triangle"></i></div>
                     <h3 class="font-bold text-lg text-slate-800 mb-2">「この皮膚所見、まさか皮膚癌…！？」</h3>
                     <p class="text-sm text-slate-600">見逃してはいけないサインなのか、老人性イボなのか、判断がつかない。</p>
-                    <div class="bg-slate-200 h-48 rounded-xl overflow-hidden relative group">
-                         <img src="resource/bowen_illust.png" alt="" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-500" loading="lazy">
+                    <div class="bg-slate-200 h-56 md:h-64 w-full rounded-xl overflow-hidden relative group">
+                         <img src="resource/bowen_illust.png" alt="" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100" loading="lazy">
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm">
+                
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100">
                     <div class="text-blue-500 text-3xl mb-3"><i class="fas fa-hospital-user"></i></div>
                     <h3 class="font-bold text-lg text-slate-800 mb-2">「待てる状態？すぐ病院に診察を依頼すべき？」</h3>
                     <p class="text-sm text-slate-600">「この程度で紹介したら怒られる？」と遠慮してしまい、タイミングを逃しそうになる。</p>
-                    <div class="bg-slate-200 h-48 rounded-xl overflow-hidden relative group">
-                         <img src="resource/matteiino.png" alt="" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-500" loading="lazy">
+                    <div class="bg-slate-200 h-56 md:h-64 w-full rounded-xl overflow-hidden relative group">
+                         <img src="resource/matteiino.png" alt="" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100" loading="lazy">
                     </div>
                 </div>
-                <div class="bg-white p-6 rounded-2xl shadow-sm md:col-span-2 lg:col-span-1">
+                
+                <div class="bg-white p-6 rounded-2xl shadow-sm md:col-span-2 lg:col-span-1 border border-slate-100">
                     <div class="text-indigo-500 text-3xl mb-3"><i class="fas fa-question-circle"></i></div>
                     <h3 class="font-bold text-lg text-slate-800 mb-2">「皮膚疾患ってどこから手をつけていいか分からない…」</h3>
                     <p class="text-sm text-slate-600">専門外だからこそ感じる、診断への漠然とした不安と孤独感。</p>
-                    <div class="bg-slate-200 h-100 rounded-xl overflow-hidden relative group">
-                         <img src="resource/dokokara.jpg" alt="" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-500" loading="lazy">
+                    <div class="bg-slate-200 h-56 md:h-64 w-full rounded-xl overflow-hidden relative group">
+                         <img src="resource/dokokara.jpg" alt="" class="w-full h-full object-cover transition duration-500 group-hover:scale-105 opacity-80 group-hover:opacity-100" loading="lazy">
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-   <section class="py-12 md:py-20 bg-blue-50">
+   <section class="py-12 md:py-20 bg-brand-light/30">
         <div class="container mx-auto px-5 md:px-6">
             <div class="text-center mb-10 md:mb-12">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4 leading-snug">
+                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4 leading-snug text-balance">
                     その悩み、チャットで解決。<br>
                     まるで「隣に専門医がいる」感覚。
                 </h2>
@@ -154,7 +182,7 @@
 
             <div class="max-w-md mx-auto bg-white border border-slate-200 rounded-3xl shadow-xl overflow-hidden">
                 <div class="bg-slate-800 text-white p-4 flex items-center gap-3">
-                    <div class="w-10 h-10 rounded-full bg-blue-500 flex items-center justify-center font-bold">医</div>
+                    <div class="w-10 h-10 rounded-full bg-brand flex items-center justify-center font-bold">医</div>
                     <div>
                         <div class="font-bold text-sm">皮膚科専門医チーム</div>
                         <div class="text-xs text-green-400">● Online</div>
@@ -175,7 +203,7 @@
 
                     <div class="flex flex-col items-start">
                         <div class="flex items-end gap-2">
-                            <div class="w-8 h-8 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center text-xs text-blue-600 font-bold mb-1">専</div>
+                            <div class="w-8 h-8 rounded-full bg-brand-light border border-brand/30 flex items-center justify-center text-xs text-brand-dark font-bold mb-1">専</div>
                             <div class="chat-bubble-left p-3 text-sm max-w-[85%] text-slate-800">
                                 ご相談ありがとうございます。<br>
                                 写真拝見しました。黒色壊死組織が見られますので、アズノールでは浸軟が進む可能性があります。<br>
@@ -188,7 +216,7 @@
 
                      <div class="flex flex-col items-start">
                         <div class="flex items-end gap-2">
-                            <div class="w-8 h-8 rounded-full bg-blue-100 border border-blue-200 flex items-center justify-center text-xs text-blue-600 font-bold mb-1">専</div>
+                            <div class="w-8 h-8 rounded-full bg-brand-light border border-brand/30 flex items-center justify-center text-xs text-brand-dark font-bold mb-1">専</div>
                             <div class="chat-bubble-left p-3 text-sm max-w-[85%] text-slate-800">
                                 また、周囲の発赤が拡大するようであれば、蜂窩織炎の合併を疑い抗生剤の投与も検討してください。
                             </div>
@@ -199,7 +227,7 @@
                 <div class="p-3 bg-white border-t border-slate-200 flex gap-2">
                     <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-500"><i class="fas fa-camera"></i></div>
                     <div class="flex-1 bg-slate-100 rounded-full h-8"></div>
-                    <div class="w-8 h-8 text-blue-500 flex items-center justify-center"><i class="fas fa-paper-plane"></i></div>
+                    <div class="w-8 h-8 text-brand flex items-center justify-center"><i class="fas fa-paper-plane"></i></div>
                 </div>
             </div>
             
@@ -207,19 +235,24 @@
         </div>
     </section>
 
-    <section class="py-12 md:py-20 bg-white">
+    <section class="py-16 bg-white">
         <div class="container mx-auto px-5 md:px-6">
-            <div class="mb-12">
-                <h2 class="text-2xl md:text-3xl font-bold text-slate-800 mb-4 md:mb-6 leading-snug">
-                    私たち、皮膚科のスペシャリストが回答します。
-                </h2>
-                <div class="mb-4 md:mb-6">
-                    <div class="inline-block bg-slate-100 text-slate-600 px-2 py-1 text-xs rounded mb-2">信頼の証</div>
-                    <h3 class="text-lg md:text-xl font-bold text-blue-600 mb-2">皮膚科専門医 (Board Certified Dermatologist)</h3>
-                    <p class="text-sm md:text-base text-slate-600 leading-relaxed">
-                        回答を担当するのは、日本皮膚科学会認定の専門医資格を持つ医師のみ。
-                    </p>
+            
+            <div class="max-w-3xl mx-auto text-center mb-16">
+                <div class="inline-flex items-center gap-2 bg-gradient-to-r from-yellow-50 to-amber-100 border border-amber-200 text-amber-800 px-6 py-2 rounded-full text-sm font-bold mb-6 shadow-sm">
+                    <i class="fas fa-certificate text-amber-500"></i> 信頼の証
                 </div>
+                
+                <h2 class="text-2xl md:text-4xl font-bold text-slate-800 mb-4 text-balance">
+                    回答はすべて<span class="text-brand-dark border-b-4 border-brand/30">「皮膚科専門医」</span>が担当
+                </h2>
+                
+                <p class="text-slate-500 text-sm font-medium tracking-widest uppercase mb-6">Board Certified Dermatologist</p>
+                
+                <p class="text-slate-600 leading-relaxed max-w-2xl mx-auto text-sm md:text-base text-balance">
+                    当サービスで回答を担当するのは、<strong class="text-slate-800">日本皮膚科学会認定の専門医資格</strong>を持つ医師のみです。
+                    学生や研修医ではなく、大学病院や基幹病院での豊富な臨床経験を持つエキスパートが、あなたの診療をバックアップします。
+                </p>
             </div>
 
             <div class="grid md:grid-cols-1 gap-8">
@@ -229,12 +262,12 @@
                     </div>
                     <div class="flex-1 text-center md:text-left">
                         <div class="mb-2">
-                            <span class="inline-block bg-blue-100 text-blue-700 text-xs px-2 py-0.5 rounded font-bold mb-1">皮膚科専門医（M.D. Ph.D）</span>
+                            <span class="inline-block bg-brand-light text-brand-dark text-xs px-3 py-1 rounded-full font-bold mb-2">皮膚科専門医（M.D. Ph.D）</span>
                             <h3 class="text-xl font-bold text-slate-800">見明 彰/Sho Miake</h3>
                         </div>
                         <p class="text-sm text-slate-600 leading-relaxed">
                             大学医局に10年以上在籍し、現在は自身でクリニックを運営する傍ら、ADL等の関係で直接来院できない多数の患者さんが世の中に居ることを知り、遠隔診療システムの必要性を痛感し起業。
-日本皮膚科学会認定皮膚科専門医、医学博士。
+                            日本皮膚科学会認定皮膚科専門医、医学博士。
                         </p>
                     </div>
                 </div>
@@ -244,7 +277,7 @@
                     </div>
                     <div class="flex-1 text-center md:text-left">
                         <div class="mb-2">
-                            <span class="inline-block bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded font-bold mb-1">株式会社Med-Ai 代表（CEO）・医師</span>
+                            <span class="inline-block bg-slate-200 text-slate-700 text-xs px-3 py-1 rounded-full font-bold mb-2">株式会社Med-Ai 代表（CEO）・医師</span>
                             <h3 class="text-xl font-bold text-slate-800">らいおん (Dr.Lion)</h3>
                         </div>
                         <p class="text-sm text-slate-600 leading-relaxed mb-3">
@@ -262,7 +295,7 @@
                     </div>
                     <div class="flex-1 text-center md:text-left">
                         <div class="mb-2">
-                            <span class="inline-block bg-slate-200 text-slate-700 text-xs px-2 py-0.5 rounded font-bold mb-1">株式会社Med-Ai 技術責任者 (CTO)</span>
+                            <span class="inline-block bg-slate-200 text-slate-700 text-xs px-3 py-1 rounded-full font-bold mb-2">株式会社Med-Ai 技術責任者 (CTO)</span>
                             <h3 class="text-xl font-bold text-slate-800">さいびー</h3>
                         </div>
                         <p class="text-sm text-slate-600 leading-relaxed mb-3">
@@ -285,20 +318,22 @@
 
     <section class="py-12 md:py-20 bg-slate-50">
         <div class="container mx-auto px-5 md:px-6">
-            <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 md:mb-16 text-slate-800">相談は3ステップで完了。</h2>
+            <h2 class="text-2xl md:text-3xl font-bold text-center mb-10 md:mb-16 text-slate-800 text-balance">
+                相談は3ステップで完了。
+            </h2>
             <div class="flex flex-col md:flex-row justify-center items-center gap-8 relative">
                 <div class="w-full md:w-1/3 text-center z-10">
-                    <div class="w-16 h-16 md:w-20 md:h-20 bg-white border-4 border-blue-500 rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-blue-500 mx-auto mb-4 md:mb-6 shadow-lg">1</div>
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-white border-4 border-brand rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-brand mx-auto mb-4 md:mb-6 shadow-lg">1</div>
                     <h3 class="text-lg md:text-xl font-bold mb-2">撮影・送信</h3>
                 </div>
                 <div class="hidden md:block absolute top-10 left-1/3 transform -translate-x-1/2 text-slate-300 text-4xl"><i class="fas fa-chevron-right"></i></div>
                 <div class="w-full md:w-1/3 text-center z-10">
-                    <div class="w-16 h-16 md:w-20 md:h-20 bg-white border-4 border-blue-500 rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-blue-500 mx-auto mb-4 md:mb-6 shadow-lg">2</div>
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-white border-4 border-brand rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-brand mx-auto mb-4 md:mb-6 shadow-lg">2</div>
                     <h3 class="text-lg md:text-xl font-bold mb-2">専門医が確認</h3>
                 </div>
                 <div class="hidden md:block absolute top-10 right-1/3 transform translate-x-1/2 text-slate-300 text-4xl"><i class="fas fa-chevron-right"></i></div>
                 <div class="w-full md:w-1/3 text-center z-10">
-                    <div class="w-16 h-16 md:w-20 md:h-20 bg-blue-600 border-4 border-blue-600 rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-white mx-auto mb-4 md:mb-6 shadow-lg">3</div>
+                    <div class="w-16 h-16 md:w-20 md:h-20 bg-brand border-4 border-brand rounded-full flex items-center justify-center text-xl md:text-2xl font-bold text-white mx-auto mb-4 md:mb-6 shadow-lg">3</div>
                     <h3 class="text-lg md:text-xl font-bold mb-2">24時間以内に回答</h3>
                 </div>
             </div>
