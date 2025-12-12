@@ -10,9 +10,13 @@ function submitForm() {
     const formWrapper = document.getElementById('form-wrapper');
     const successMessage = document.getElementById('success-message');
 
+    // Mail Input Elements
+    const emailInput = document.getElementById('contactEmail');
+    const emailConfirmInput = document.getElementById('contactEmailConfirm');
+
     let isValid = true;
 
-    // リセット
+    // リセット: エラー表示と結果メッセージをクリア
     inputs.forEach(input => {
         const errorMsg = input.nextElementSibling;
         if (errorMsg && errorMsg.classList.contains('error-message')) {
@@ -23,19 +27,29 @@ function submitForm() {
     resultDiv.classList.add('hidden');
     resultDiv.textContent = '';
 
-    // バリデーション
+    // バリデーションチェック (必須チェック)
     inputs.forEach(input => {
         if (input.hasAttribute('required') && !input.value.trim()) {
             isValid = false;
-            input.classList.add('border-red-500', 'bg-red-50');
-            const errorMsg = input.nextElementSibling;
-            if (errorMsg && errorMsg.classList.contains('error-message')) {
-                errorMsg.classList.remove('hidden');
-            }
+            showError(input);
         }
     });
 
-    if (!isValid) return;
+    // メールアドレス形式チェック (正規表現)
+    // 簡易的な形式チェック: 文字列@文字列.文字列
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (emailInput.value.trim() && !emailPattern.test(emailInput.value)) {
+        isValid = false;
+        showError(emailInput);
+    }
+
+    // メールアドレス一致チェック
+    if (emailInput.value.trim() !== emailConfirmInput.value.trim()) {
+        isValid = false;
+        showError(emailConfirmInput);
+    }
+
+    if (!isValid) return; // エラーがあれば中断
 
     // 送信中表示
     btn.disabled = true;
@@ -47,6 +61,9 @@ function submitForm() {
     const formData = new FormData(form);
     const data = {};
     formData.forEach((value, key) => {
+        // 確認用メールアドレスは送信データに含めない
+        if (key === 'contactEmailConfirm') return;
+
         if (data[key]) {
             if (!Array.isArray(data[key])) {
                 data[key] = [data[key]];
@@ -69,23 +86,19 @@ function submitForm() {
     .then(response => response.json())
     .then(result => {
         if (result.status === 'success') {
-            // --- 成功時のアニメーション ---
-            
-            // 1. フォームを折りたたむ（高さ0、透明度0、余白0）
+            // 成功時のアニメーション
             formWrapper.style.maxHeight = '0px';
             formWrapper.style.opacity = '0';
             formWrapper.style.marginBottom = '0';
             formWrapper.style.padding = '0';
 
-            // 2. 完了メッセージを表示準備（hidden削除）
             successMessage.classList.remove('hidden');
             successMessage.classList.add('flex');
 
-            // 3. 少し待ってから完了メッセージをフェードイン（opacity 1, translateY 0）
             setTimeout(() => {
                 successMessage.classList.remove('opacity-0', 'translate-y-4');
                 successMessage.classList.add('opacity-100', 'translate-y-0');
-            }, 600); // フォームが消えかけるタイミングで表示開始
+            }, 600);
 
             form.reset();
         } else {
@@ -106,31 +119,24 @@ function submitForm() {
     });
 }
 
-// ページの読み込み完了を待たずに、HTMLの解釈が終わったらすぐに表示する
-document.addEventListener('DOMContentLoaded', () => {
-    // もしページ全体を覆うローディング画面があるなら、ここで非表示にするクラスを付与
-    const loader = document.getElementById('global-loader'); // ※もしあれば
-    if (loader) {
-        loader.classList.add('opacity-0', 'pointer-events-none');
-        setTimeout(() => {
-            loader.style.display = 'none';
-        }, 500);
+// エラー表示用ヘルパー関数
+function showError(inputElement) {
+    inputElement.classList.add('border-red-500', 'bg-red-50');
+    const errorMsg = inputElement.nextElementSibling;
+    if (errorMsg && errorMsg.classList.contains('error-message')) {
+        errorMsg.classList.remove('hidden');
     }
-});
+}
 
 // 動画の遅延読み込み＆自動再生制御
 document.addEventListener("DOMContentLoaded", function() {
-    // class="lazy" がついた動画を対象にする
     var lazyVideos = [].slice.call(document.querySelectorAll("video.lazy"));
 
     if ("IntersectionObserver" in window) {
         var lazyVideoObserver = new IntersectionObserver(function(entries, observer) {
             entries.forEach(function(video) {
                 if (video.isIntersecting) {
-                    // 画面内に入ったら実行
                     var videoElement = video.target;
-                    
-                    // data-src を src に書き戻す
                     var sources = videoElement.children;
                     for (var i = 0; i < sources.length; i++) {
                         var source = sources[i];
@@ -138,19 +144,15 @@ document.addEventListener("DOMContentLoaded", function() {
                             source.src = source.dataset.src;
                         }
                     }
-
-                    // 読み込み開始
                     videoElement.load();
                     videoElement.classList.remove("lazy");
                     
-                    // 明示的に再生を実行（スマホ対策）
                     var playPromise = videoElement.play();
                     if (playPromise !== undefined) {
                         playPromise.catch(error => {
-                            console.log("自動再生がブロックされました（省電力モード等の可能性があります）:", error);
+                            console.log("自動再生ブロック:", error);
                         });
                     }
-
                     lazyVideoObserver.unobserve(videoElement);
                 }
             });

@@ -7,7 +7,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap');
         body { font-family: 'Noto Sans JP', sans-serif; }
         
         .video-background {
@@ -43,7 +43,7 @@
     </header>
 
     <section class="relative min-h-[80svh] flex items-center justify-center overflow-hidden text-white py-20 md:py-0">
-        <video class="video-background lazy" autoplay loop muted playsinline poster="resource/movie_poster.jpg">
+        <video class="video-background lazy" autoplay loop muted playsinline preload="none" poster="resource/movie_poster.jpg">
             <source data-src="resource/derma-consulting-LP_movie.mp4" type="video/mp4">
         </video>
         <div class="overlay"></div>
@@ -54,7 +54,7 @@
                     皮膚科専門医によるオンラインコンサルト
                 </div>
                 <h1 class="text-3xl md:text-5xl font-bold leading-tight mb-6 drop-shadow-lg">
-                    「あなたのポケットに<br>専門医を。」
+                    「あなたのポケットに専門医を。」
                 </h1>
                 <p class="text-lg md:text-2xl mb-8 text-blue-100 font-bold drop-shadow-md leading-relaxed">
                     訪問診療医を孤立させない。<br>
@@ -111,7 +111,7 @@
                     <h3 class="font-bold text-lg text-slate-800 mb-2">「この褥瘡、自分で診れる範囲の重症度？」</h3>
                     <p class="text-sm text-slate-600">デブリは必要？ゲーベンでいい？処置の方針に自信が持てない。</p>
                     <div class="bg-slate-200 h-72 rounded-xl overflow-hidden relative group">
-                         <div class="absolute inset-0 flex items-center justify-center text-slate-500 font-bold text-xs bg-slate-100/50">※実際の画像をここに表示</div>
+                         <img src="resource/jyokuso.JPG" alt="褥瘡" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition duration-500" loading="lazy">
                     </div>
                 </div>
                 <div class="bg-white p-6 rounded-2xl shadow-sm">
@@ -203,7 +203,7 @@
                 </div>
             </div>
             
-            <p class="text-center text-xs text-slate-500 mt-8">※画像のやり取りはイメージの一例です。症例相談以外にも多様な悩みにお応えします。</p>
+            <p class="text-center text-xs text-slate-500 mt-8">※画像のやり取りはイメージの一例です。<br class="md:hidden">症例相談以外にも多様な悩みにお応えします。</p>
         </div>
     </section>
 
@@ -351,14 +351,13 @@
                                         <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="内科"><span>内科</span></label>
                                         <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="外科"><span>外科</span></label>
                                         <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="整形外科"><span>整形外科</span></label>
-                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="脳神経外科"><span>脳神経外科</span></label>
                                         <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="小児科"><span>小児科</span></label>
                                         <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="精神科"><span>精神科</span></label>
-                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="皮膚科"><span>皮膚科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="産婦人科"><span>産婦人科</span></label>
                                         <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="泌尿器科"><span>泌尿器科</span></label>
                                         <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="眼科"><span>眼科</span></label>
                                         <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="耳鼻咽喉科"><span>耳鼻咽喉科</span></label>
-                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="リハ科"><span>リハ科</span></label>
+                                        <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="リハビリテーション科"><span>リハビリテーション科</span></label>
                                         <label class="flex items-center space-x-2"><input type="checkbox" name="department" value="その他"><span>その他</span></label>
                                     </div>
                                 </div>
@@ -384,8 +383,14 @@
 
                                 <div>
                                     <label class="block text-sm font-bold mb-1">連絡先メールアドレス <span class="text-red-500">*</span></label>
-                                    <input type="email" name="contactEmail" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500">
-                                    <div class="error-message text-red-500 text-xs mt-1 font-bold hidden">正しいメールアドレスを入力してください</div>
+                                    <input type="email" name="contactEmail" id="contactEmail" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="example@medai.jp">
+                                    <div class="error-message text-red-500 text-xs mt-1 font-bold hidden">正しいメールアドレス形式で入力してください</div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-bold mb-1">連絡先メールアドレス（確認用） <span class="text-red-500">*</span></label>
+                                    <input type="email" name="contactEmailConfirm" id="contactEmailConfirm" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500" placeholder="確認のため再入力">
+                                    <div class="error-message text-red-500 text-xs mt-1 font-bold hidden">メールアドレスが一致しません</div>
                                 </div>
 
                                 <div>
@@ -416,13 +421,15 @@
 
                 </div>
 
-                <div class="bg-white p-6 md:p-8 rounded-2xl text-slate-800 border-4 border-green-500">
+                <div class="bg-white p-6 md:p-8 rounded-2xl text-slate-800 border-4 border-green-500 relative overflow-hidden">
                     <span class="bg-blue-500 text-white text-xs px-2 py-1 rounded mb-4 inline-block">まずは情報収集</span>
                     <h3 class="text-xl md:text-2xl font-bold mb-3 md:mb-4">公式LINEに登録</h3>
-                    <p class="text-slate-500 mb-6 md:mb-8 text-sm">皮膚科診療のTipsや、教育コンテンツの一部を無料配信。</p>
+                    <p class="text-slate-500 mb-6 md:mb-8 text-sm">
+                        <span class="text-red-500 font-bold">【特典付き】</span><br class="md:hidden">皮膚科診療のTipsや、教育コンテンツの一部を無料配信します。
+                    </p>
                     <a href="https://lin.ee/zY1YCi7" target="_blank" rel="noopener noreferrer" class="w-full bg-[#06C755] hover:bg-[#05b54d] text-white font-bold py-3 md:py-4 rounded-lg shadow-lg transition flex items-center justify-center gap-2">
                         <i class="fab fa-line text-2xl"></i>
-                        <span>友だち追加して情報を受け取る</span>
+                        <span>特典を受け取って友だち追加</span>
                     </a>
                 </div>
             </div>
