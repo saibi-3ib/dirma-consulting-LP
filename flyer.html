@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダーマコンサル展示会チラシ_v11</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        /* 基本設定 */
+        body { font-family: 'Noto Sans JP', sans-serif; margin: 0; padding: 0; background: #e2e8f0; }
+        @page { size: A4; margin: 0; }
+        
+        .flyer-container {
+            width: 210mm; height: 297mm; margin: 0 auto; background: white; 
+            position: relative; overflow: hidden; box-sizing: border-box;
+            -webkit-print-color-adjust: exact; print-color-adjust: exact;
+            padding: 8mm 12mm; display: flex; flex-direction: column; justify-content: space-between;
+        }
+        
+        @media screen { .flyer-container { margin: 20px auto; border: 1px solid #ccc; } }
+        @media print { body { background: white; margin: 0; } .flyer-container { margin: 0; border: none; } }
+
+        /* カラー */
+        .text-brand { color: #5bb4c4; }
+        .bg-brand { background-color: #5bb4c4; }
+        .border-brand { border-color: #5bb4c4; }
+        .bg-brand-dark { background-color: #4299a8; }
+        
+        /* 背景（影なし） */
+        .diagonal-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 0;
+            background: linear-gradient(160deg, #f0fdf4 0%, #f0fdf4 40%, #ffffff 40%, #ffffff 100%);
+            opacity: 0.5;
+        }
+
+        /* スマホ風（影なし） */
+        .phone-mockup {
+            border: 3px solid #334155; border-radius: 16px; overflow: hidden; background: #fff;
+            height: 100%; display: flex; flex-direction: column;
+        }
+        .chat-screen {
+            flex: 1; background: #8facd6; padding: 8px; display: flex; flex-direction: column; gap: 8px;
+        }
+        
+        /* 吹き出し（影なし） */
+        .chat-bubble {
+            position: relative; background: #ffffff; border-radius: 8px; padding: 6px 8px;
+            font-size: 8px; line-height: 1.35; width: fit-content; max-width: 92%;
+            border: 1px solid #94a3b8;
+        }
+        .chat-bubble::after {
+            content: ''; position: absolute; top: 8px; width: 0; height: 0;
+            border: 5px solid transparent; margin-top: -5px;
+        }
+        .bubble-left { margin-right: auto; }
+        .bubble-left::after { left: -5px; border-right-color: #94a3b8; border-left: 0; }
+        .bubble-left::before {
+            content: ''; position: absolute; top: 8px; left: -4px; width: 0; height: 0;
+            border: 4px solid transparent; margin-top: -4px; z-index: 1;
+            border-right-color: #ffffff; border-left: 0;
+        }
+
+        .bubble-right { margin-left: auto; background: #dcf8c6; border-color: #86efac; }
+        .bubble-right::after { right: -5px; border-left-color: #86efac; border-right: 0; }
+        .bubble-right::before {
+            content: ''; position: absolute; top: 8px; right: -4px; width: 0; height: 0;
+            border: 4px solid transparent; margin-top: -4px; z-index: 1;
+            border-left-color: #dcf8c6; border-right: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="flyer-container">
+        <div class="diagonal-bg"></div>
+
+        <header class="relative z-10 mb-2 border-b-4 border-brand pb-3">
+            <div class="flex justify-between items-end mb-3">
+                <img src="resource/logo_vertical-MAX_cmyk.png" alt="ダーマコンサル" class="h-32 object-contain -ml-1">
+            </div>
+            
+            <h1 class="text-4xl font-black text-slate-800 leading-none tracking-tight mb-3">
+                あなたのポケットに<span class="text-brand">専門医</span>を。
+            </h1>
+            <br>
+            <div class="bg-white/80 border-l-8 border-brand p-3 rounded-r-lg border border-slate-100">
+                <p class="text-base font-bold text-slate-700 leading-relaxed">
+                    訪問診療医を孤立させない。<br>
+                    <span class="text-brand border-b-2 border-brand">患者さんの皮膚疾患を放置させない。</span>
+                </p>
+            </div>
+        </header>
+
+        <main class="relative z-10 flex-1 flex flex-col gap-4">
+
+            <section class="flex gap-2 items-center bg-white p-3 rounded-xl border-2 border-slate-200 h-32">
+                <div class="w-[35%] space-y-1">
+                    <p class="text-xs font-bold text-slate-500 mb-2">▼ こんなお悩みありませんか？</p>
+                    <div class="flex items-center gap-1 text-[9px] font-bold text-slate-700 bg-slate-50 px-2 py-1 rounded border border-slate-200 whitespace-nowrap">
+                        <span class="text-red-500">●</span> 褥瘡の処置方針に迷う
+                    </div>
+                    <div class="flex items-center gap-1 text-[9px] font-bold text-slate-700 bg-slate-50 px-2 py-1 rounded border border-slate-200 whitespace-nowrap">
+                        <span class="text-blue-500">●</span> 薬の選択・強さが不明
+                    </div>
+                    <div class="flex items-center gap-1 text-[9px] font-bold text-slate-700 bg-slate-50 px-2 py-1 rounded border border-slate-200 whitespace-nowrap">
+                        <span class="text-yellow-500">●</span> 悪性腫瘍の判断が困難
+                    </div>
+                </div>
+                
+                <div class="text-brand text-4xl flex-shrink-0 text-center px-9 flex items-center justify-center h-full">
+                    ▶
+                </div>
+                
+                <div class="flex-1 text-right pl-2">
+                    <h2 class="text-3xl font-black text-slate-800 leading-tight">
+                        <span class="text-brand border-b-4 border-brand">チャット</span>で送るだけ。
+                    </h2>
+                    <p class="text-xs font-bold text-slate-500 mt-3 leading-relaxed">
+                        専用アプリ不要。いつもの操作感で<br>
+                        熟練の皮膚科専門医からの回答が届きます！
+                    </p>
+                </div>
+            </section>
+
+            <section class="flex items-end justify-between gap-3 h-80 pb-2">
+                
+                <div class="w-[30%] bg-white rounded-xl border-2 border-slate-200 p-2 text-center flex flex-col h-[90%]">
+                    <div class="relative rounded-lg overflow-hidden border border-slate-100 flex-1 mb-2 bg-slate-100">
+                        <img src="resource/movie_poster.jpg" class="w-full h-full object-cover absolute inset-0">
+                        <div class="absolute bottom-2 right-2 bg-slate-800 text-white text-[9px] px-2 py-0.5 rounded border border-white">
+                            <i class="fas fa-camera"></i> 撮影
+                        </div>
+                    </div>
+                    <p class="font-bold text-sm text-slate-700 text-center mb-1">① 患部を撮影</p>
+                </div>
+
+                <div class="w-[38%] h-full flex flex-col relative z-20">
+                    <div class="phone-mockup flex-1">
+                        <div class="bg-slate-100 p-1.5 border-b text-center text-[9px] font-bold text-slate-600">皮膚科専門医チーム</div>
+                        <div class="chat-screen justify-start pt-4">
+                            <div class="chat-bubble bubble-right">
+                                仙骨部の発赤が悪化しています。<br>
+                                現在アズノールを使用中ですが、<br>
+                                滲出液が増えてきました。<br>
+                                画像を送ります。
+                            </div>
+                            <div class="chat-bubble bubble-left">
+                                画像拝見しました。<br>
+                                黄色壊死組織と周囲の発赤があり、感染徴候を疑います。<br>
+                                <strong>ゲーベンクリーム</strong>に変更し、洗浄を強化してください。<br>
+                                抗生剤の内服も検討が必要です。
+                            </div>
+                            <div class="chat-bubble bubble-right">
+                                承知しました。<br>処方変更して経過観察します。<br>ありがとうございます。
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-2 text-center">
+                        <span class="font-black text-white bg-brand px-4 py-1 rounded-full text-lg border-2 border-brand-dark">
+                            ② 即座に解決
+                        </span>
+                    </div>
+                </div>
+
+                <div class="w-[30%] bg-white rounded-xl border-2 border-slate-200 p-2 flex flex-col justify-center h-[90%] gap-3 text-center">
+                    <div class="relative w-24 h-24 mx-auto">
+                        <img src="resource/drmiake_photo.jpeg" class="w-full h-full rounded-full border-4 border-brand object-cover">
+                        <span class="absolute -bottom-2 -right-1 bg-brand text-white text-[9px] px-2 py-0.5 rounded-full border-2 border-white font-bold">専門医</span>
+                    </div>
+                    <div>
+                        <p class="text-[9px] font-bold text-slate-500 leading-tight">特別顧問</p>
+                        <p class="font-bold text-[12px] text-slate-800 leading-tight mt-1">見明 彰 医師<br>Sho Miake M.D. Ph.D.</p>
+                        <p class="text-[9px] text-slate-400 mt-0.5">日本皮膚科学会認定 皮膚科専門医<br>医学博士</p>
+                        <p class="text-[9px] text-slate-400 mt-0.5">経験症例数、10万件以上</p>
+                    </div>
+                    <div class="bg-blue-50 px-1 py-2 rounded border border-blue-100">
+                        <p class="text-[10px] text-blue-800 font-bold">24時間以内に回答</p>
+                    </div>
+                </div>
+
+            </section>
+
+            <section class="text-center pt-1">
+                <div class="flex items-center gap-2 mb-2 justify-center">
+                    <span class="h-px w-6 bg-slate-300"></span>
+                    <h3 class="text-[10px] font-bold text-slate-500">開発・運営チーム</h3>
+                    <span class="h-px w-6 bg-slate-300"></span>
+                </div>
+                <div class="flex justify-center gap-4">
+                    <div class="flex items-center gap-2 bg-white px-3 py-1 rounded-full border border-slate-200">
+                        <img src="resource/drlion.jpg" class="w-6 h-6 rounded-full object-cover">
+                        <div class="leading-tight text-left">
+                            <p class="text-[8px] text-slate-500 font-bold">代表医師</p>
+                            <p class="text-[10px] font-bold">Dr. Lion</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white px-3 py-1 rounded-full border border-slate-200">
+                        <img src="resource/drsaibi.png" class="w-6 h-6 rounded-full object-cover bg-slate-100">
+                        <div class="leading-tight text-left">
+                            <p class="text-[8px] text-slate-500 font-bold">CTO</p>
+                            <p class="text-[10px] font-bold">Saibi</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <footer class="mt-2 border-t-2 border-slate-200 pt-2 relative z-10 bg-white">
+            
+            <div class="bg-yellow-400 text-slate-900 text-center py-2 font-black text-sm mb-3 rounded-lg transform -skew-x-6 mx-4 border-b-4 border-yellow-500">
+                <div class="transform skew-x-6">
+                    <i class="fas fa-ticket-alt mr-1"></i> 
+                    展示会限定：LINE登録で<span class="text-red-600 text-lg mx-1">「コンサルティング無料利用枠」</span>提供中！
+                </div>
+            </div>
+
+            <div class="flex gap-3 items-stretch h-32">
+                
+                <div class="flex-1 bg-slate-50 rounded-xl p-2 flex items-center gap-3 border-2 border-slate-200">
+                    <div class="bg-white p-1 border border-slate-200 rounded shrink-0">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://medai.jp/derma-consulting/LP/" alt="Web QR" class="w-20 h-20">
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-[10px] font-bold text-slate-500 border-b border-slate-300 pb-1 mb-1">
+                            <i class="fas fa-globe mr-1"></i> サービス詳細
+                        </p>
+                        <p class="text-[11px] font-black text-red-600 mb-1">申込フォームはこちら</p>
+                        <p class="text-[8px] text-slate-400 mt-1">簡単1分で完了</p>
+                    </div>
+                </div>
+
+                <div class="flex-1 bg-brand-dark rounded-xl p-2 flex items-center gap-3 border-4 border-brand relative overflow-hidden">
+                    <div class="absolute -right-2 -bottom-2 text-white/10 text-8xl"><i class="fab fa-line"></i></div>
+                    
+                    <div class="bg-white p-1 rounded shrink-0 z-10">
+                        <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://lin.ee/zY1YCi7" alt="LINE QR" class="w-20 h-20">
+                    </div>
+                    
+                    <div class="flex-1 z-10 text-white">
+                        <p class="text-[10px] font-bold border-b border-white/30 pb-1 mb-1">
+                            <i class="fab fa-line mr-1"></i> 公式LINEへ登録
+                        </p>
+                        <p class="text-[12px] font-black mb-1 bg-black/20 px-1 rounded inline-block">無料枠を受け取る</p>
+                        <p class="text-[8px] opacity-90 mt-1">特典は数量限定です！</p>
+                    </div>
+                </div>
+
+            </div>
+            
+            <div class="text-center mt-2 text-[8px] text-slate-400">
+                株式会社Med-Ai（メッドアイ）
+            </div>
+        </footer>
+
+    </div>
+
+</body>
+</html>
