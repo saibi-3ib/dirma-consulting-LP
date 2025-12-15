@@ -17,7 +17,7 @@ if (!$input) {
     exit;
 }
 
-// データの整形（入力がない場合は空文字を入れる）
+// データの整形
 $facilityName = htmlspecialchars($input['facilityName'] ?? '');
 $facilityCategory = htmlspecialchars($input['facilityCategory'] ?? '');
 $departments = isset($input['department']) ? (is_array($input['department']) ? implode(', ', $input['department']) : $input['department']) : 'なし';
@@ -32,12 +32,18 @@ $facilityUrl = isset($input['facilityUrl']) ? htmlspecialchars($input['facilityU
 $smtp_host = 'ssl://smtp.gmail.com'; 
 $smtp_port = 465;
 $username = 'med.ai.rep@gmail.com';  
-$password = 'ypyf jetc rrja hvyx'; // アプリパスワード
+$password = 'ypyf jetc rrja hvyx'; 
 
-// 運用に合わせて変更してください
 $to = 'med.ai.rep+LP@gmail.com'; 
 $subject = "【利用登録申込】" . $facilityName . "様";
 $from = 'med.ai.rep@gmail.com';
+
+// ★追加: BCCリストの設定
+$bcc_list = [
+    'tornadomart49@yahoo.co.jp',
+    's.miake.14@gmail.com',
+    'satmedryo@gmail.com'
+];
 // ===================================================
 
 $body = "以下の内容で利用登録の申し込みがありました。\n\n";
@@ -52,15 +58,15 @@ $body .= "役職: $contactPosition\n";
 $body .= "Email: $contactEmail\n";
 $body .= "\n--\n送信元: ダーマコンサルランディングページ(https://medai.jp/derma-consulting/LP.html)";
 
-// SMTP送信関数（シンプル版）
-function send_smtp_mail($to, $subject, $body, $from, $host, $port, $user, $pass) {
+// SMTP送信関数（★変更: 第9引数に $bcc_arr を追加）
+function send_smtp_mail($to, $subject, $body, $from, $host, $port, $user, $pass, $bcc_arr = []) {
     $socket = fsockopen($host, $port, $errno, $errstr, 30);
     if (!$socket) return false;
 
     // サーバーからの応答を読み捨てる関数
     $read = function($s) { while($str = fgets($s, 512)) if(substr($str, 3, 1) == " ") break; };
 
-    $read($socket); // 接続時の応答
+    $read($socket); 
 
     fputs($socket, "EHLO " . $_SERVER['SERVER_NAME'] . "\r\n");
     $read($socket);
@@ -77,8 +83,19 @@ function send_smtp_mail($to, $subject, $body, $from, $host, $port, $user, $pass)
     fputs($socket, "MAIL FROM: <$from>\r\n");
     $read($socket);
 
+    // メインの宛先(To)への送信指示
     fputs($socket, "RCPT TO: <$to>\r\n");
     $read($socket);
+
+    // ★追加: BCCへの送信指示（ループ処理）
+    // DATAコマンド(本文作成)の前に RCPT TO を送ることで、裏側で配送先として指定されます。
+    // ヘッダーには書かないため、受信者にはBCCが見えません。
+    if (!empty($bcc_arr) && is_array($bcc_arr)) {
+        foreach ($bcc_arr as $bcc) {
+            fputs($socket, "RCPT TO: <$bcc>\r\n");
+            $read($socket);
+        }
+    }
 
     fputs($socket, "DATA\r\n");
     $read($socket);
@@ -106,8 +123,8 @@ function send_smtp_mail($to, $subject, $body, $from, $host, $port, $user, $pass)
     return strpos($result, '250') !== false;
 }
 
-// 実行
-if (send_smtp_mail($to, $subject, $body, $from, $smtp_host, $smtp_port, $username, $password)) {
+// 実行（★変更: 引数に $bcc_list を追加）
+if (send_smtp_mail($to, $subject, $body, $from, $smtp_host, $smtp_port, $username, $password, $bcc_list)) {
     echo json_encode(['status' => 'success']);
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Mail sending failed.']);
