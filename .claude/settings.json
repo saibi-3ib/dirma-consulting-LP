@@ -1,0 +1,14 @@
+{
+  "hooks": {
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "mkdir -p docs/ai_contexts 2>/dev/null && git diff --stat HEAD 2>/dev/null > docs/ai_contexts/.last_stop_$(date +%Y%m%d_%H%M%S).diff || true"
+          }
+        ]
+      }
+    ]
+  }
+}
