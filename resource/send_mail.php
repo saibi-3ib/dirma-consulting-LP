@@ -1,9 +1,6 @@
 <?php
-// send_mail.php
+// resource/send_mail.php
 
-// CORS設定は同一ドメイン内であれば不要なので削除
-
-// JSONレスポンス設定
 header('Content-Type: application/json; charset=UTF-8');
 
 // POSTメソッドのみ許可
@@ -12,7 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
     exit;
 }
 
-// JSON入力の取得
 $inputJSON = file_get_contents('php://input');
 $input = json_decode($inputJSON, true);
 
@@ -21,47 +17,114 @@ if (!$input) {
     exit;
 }
 
-// 必須項目のチェック
-$requiredFields = ['facilityName', 'facilityCategory', 'contactName', 'contactEmail'];
-foreach ($requiredFields as $field) {
-    if (empty($input[$field])) {
-        echo json_encode(['status' => 'error', 'message' => "Missing field: $field"]);
-        exit;
-    }
-}
-
 // データの整形
-$facilityName = htmlspecialchars($input['facilityName']);
-$facilityCategory = htmlspecialchars($input['facilityCategory']);
+$facilityName = htmlspecialchars($input['facilityName'] ?? '');
+$facilityCategory = htmlspecialchars($input['facilityCategory'] ?? '');
 $departments = isset($input['department']) ? (is_array($input['department']) ? implode(', ', $input['department']) : $input['department']) : 'なし';
-$contactName = htmlspecialchars($input['contactName']);
+$contactName = htmlspecialchars($input['contactName'] ?? '');
 $contactPosition = isset($input['contactPosition']) ? htmlspecialchars($input['contactPosition']) : 'なし';
-$contactEmail = htmlspecialchars($input['contactEmail']);
+$contactEmail = htmlspecialchars($input['contactEmail'] ?? '');
 $facilityUrl = isset($input['facilityUrl']) ? htmlspecialchars($input['facilityUrl']) : 'なし';
 
-// メール送信設定
-// ★受信先アドレスを実際の運用アドレスに変更してください
-$to = 'example@example.com'; 
+// ===================================================
+// ★ 設定
+// ===================================================
+$smtp_host = 'ssl://smtp.gmail.com'; 
+$smtp_port = 465;
+$username = 'med.ai.rep@gmail.com';  
+$password = 'ypyf jetc rrja hvyx'; 
+
+$to = 'med.ai.rep+LP@gmail.com'; 
 $subject = "【利用登録申込】" . $facilityName . "様";
+$from = 'med.ai.rep@gmail.com';
 
-$message = "以下の内容で利用登録の申し込みがありました。\n\n";
-$message .= "■施設情報\n";
-$message .= "施設名: $facilityName\n";
-$message .= "カテゴリ: $facilityCategory\n";
-$message .= "診療科: $departments\n";
-$message .= "HP URL: $facilityUrl\n\n";
-$message .= "■担当者情報\n";
-$message .= "氏名: $contactName\n";
-$message .= "役職: $contactPosition\n";
-$message .= "Email: $contactEmail\n";
-$message .= "\n--\n送信元: 皮膚科コンサルトLP";
+// ★追加: BCCリストの設定
+$bcc_list = [
+    'tornadomart49@yahoo.co.jp',
+    's.miake.14@gmail.com',
+    'satmedryo@gmail.com'
+];
+// ===================================================
 
-$headers = "From: noreply@example.com" . "\r\n" .
-           "Reply-To: " . $contactEmail . "\r\n" .
-           "X-Mailer: PHP/" . phpversion();
+$body = "以下の内容で利用登録の申し込みがありました。\n\n";
+$body .= "■施設情報\n";
+$body .= "施設名: $facilityName\n";
+$body .= "カテゴリ: $facilityCategory\n";
+$body .= "診療科: $departments\n";
+$body .= "HP URL: $facilityUrl\n\n";
+$body .= "■担当者情報\n";
+$body .= "氏名: $contactName\n";
+$body .= "役職: $contactPosition\n";
+$body .= "Email: $contactEmail\n";
+$body .= "\n--\n送信元: ダーマコンサルランディングページ(https://medai.jp/derma-consulting/LP.html)";
 
-// 送信実行
-if (mail($to, $subject, $message, $headers)) {
+// SMTP送信関数（★変更: 第9引数に $bcc_arr を追加）
+function send_smtp_mail($to, $subject, $body, $from, $host, $port, $user, $pass, $bcc_arr = []) {
+    $socket = fsockopen($host, $port, $errno, $errstr, 30);
+    if (!$socket) return false;
+
+    // サーバーからの応答を読み捨てる関数
+    $read = function($s) { while($str = fgets($s, 512)) if(substr($str, 3, 1) == " ") break; };
+
+    $read($socket); 
+
+    fputs($socket, "EHLO " . $_SERVER['SERVER_NAME'] . "\r\n");
+    $read($socket);
+
+    fputs($socket, "AUTH LOGIN\r\n");
+    $read($socket);
+
+    fputs($socket, base64_encode($user) . "\r\n");
+    $read($socket);
+
+    fputs($socket, base64_encode($pass) . "\r\n");
+    $read($socket);
+
+    fputs($socket, "MAIL FROM: <$from>\r\n");
+    $read($socket);
+
+    // メインの宛先(To)への送信指示
+    fputs($socket, "RCPT TO: <$to>\r\n");
+    $read($socket);
+
+    // ★追加: BCCへの送信指示（ループ処理）
+    // DATAコマンド(本文作成)の前に RCPT TO を送ることで、裏側で配送先として指定されます。
+    // ヘッダーには書かないため、受信者にはBCCが見えません。
+    if (!empty($bcc_arr) && is_array($bcc_arr)) {
+        foreach ($bcc_arr as $bcc) {
+            fputs($socket, "RCPT TO: <$bcc>\r\n");
+            $read($socket);
+        }
+    }
+
+    fputs($socket, "DATA\r\n");
+    $read($socket);
+
+    // ヘッダー作成
+    $headers = "From: $from\r\n";
+    $headers .= "Reply-To: $from\r\n";
+    $headers .= "To: $to\r\n";
+    $headers .= "Date: " . date('r') . "\r\n";
+    $headers .= "Message-ID: <" . md5(uniqid(time())) . "@gmail.com>\r\n";
+    $headers .= "MIME-Version: 1.0\r\n";
+    $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
+    $headers .= "Content-Transfer-Encoding: 8bit\r\n";
+    $headers .= "Subject: =?UTF-8?B?" . base64_encode($subject) . "?=\r\n";
+
+    fputs($socket, "$headers\r\n$body\r\n.\r\n");
+    
+    // 送信結果の確認
+    $result = fgets($socket, 512); 
+    
+    fputs($socket, "QUIT\r\n");
+    fclose($socket);
+
+    // 250 OK なら成功
+    return strpos($result, '250') !== false;
+}
+
+// 実行（★変更: 引数に $bcc_list を追加）
+if (send_smtp_mail($to, $subject, $body, $from, $smtp_host, $smtp_port, $username, $password, $bcc_list)) {
     echo json_encode(['status' => 'success']);
 } else {
     echo json_encode(['status' => 'error', 'message' => 'Mail sending failed.']);

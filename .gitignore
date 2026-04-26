@@ -3,3 +3,4 @@
 .env
 # Claude Code Stop hook snapshots (transient, not for git)
 docs/ai_contexts/.last_stop_*.diff
+dirma-consulting-LP.code-workspace
